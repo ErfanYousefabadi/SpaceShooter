@@ -8,14 +8,16 @@ public enum BulletOwner { Player, Enemy }
 public class Bullet : Entity
 {
     private Vector2 _velocity;
+    private Vector2 _direction;
 
     public BulletOwner Owner { get; set; }
     public int Damage { get; set; }
 
-    public Bullet(Sprite sprite, Vector2 pos, Vector2 vel, 
-        BulletOwner bulletOwner, int damage) : base(sprite, 1, pos)
+    public Bullet(Sprite sprite, Vector2 pos, float speed, Vector2 direction, 
+        BulletOwner bulletOwner, int damage) : base(sprite, 1, pos, speed)
     {
-        _velocity = vel;
+        _direction = direction;
+        _velocity = direction * speed;
         Owner = bulletOwner;
         Damage = damage;
     }

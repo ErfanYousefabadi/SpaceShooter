@@ -3,12 +3,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
-using MonoGameLibrary.Input;
 using SpaceGame.Entities;
 
 public class Ship : Entity
 {
-    private float _speed; // pixels per second (will be multiplied by deltaTime)
     private TimeSpan _fireRate = TimeSpan.FromMilliseconds(200);
     private TimeSpan _timeSinceLastShot = TimeSpan.FromMilliseconds(200);
 
@@ -16,22 +14,23 @@ public class Ship : Entity
     public int Coins { get; set; }
 
     public Ship(Sprite sprite, int maxHP, Vector2 pos, float speed) 
-        : base(sprite, maxHP, pos)
+        : base(sprite, maxHP, pos, speed)
     {
-        _speed = speed;
+        Score = 0;
+        Coins = 0;    
     }
 
     private void Move(float deltaTime, Rectangle roomBounds)
     {
         Vector2 delta = Vector2.Zero;
         if (Core.Input.Keyboard.IsKeyDown(Keys.W))
-            delta.Y -= _speed;
+            delta.Y -= Speed;
         if (Core.Input.Keyboard.IsKeyDown(Keys.S))
-            delta.Y += _speed;
+            delta.Y += Speed;
         if (Core.Input.Keyboard.IsKeyDown(Keys.A))
-            delta.X -= _speed;
+            delta.X -= Speed;
         if (Core.Input.Keyboard.IsKeyDown(Keys.D))
-            delta.X += _speed;
+            delta.X += Speed;
 
         delta *= deltaTime;        
 
@@ -57,7 +56,7 @@ public class Ship : Entity
         if (_timeSinceLastShot < _fireRate)
             return null;
         Vector2 pos = new(GetBounds().Left + _sprite.Width * 0.5f - bs.Width * 0.5f, GetBounds().Top);
-        Bullet bullet = new(bs, pos, new(0, -400), BulletOwner.Player, 20);
+        Bullet bullet = new(bs, pos, 400, new(0, -1), BulletOwner.Player, 20);
         _timeSinceLastShot = TimeSpan.Zero;
         return bullet;
     }    

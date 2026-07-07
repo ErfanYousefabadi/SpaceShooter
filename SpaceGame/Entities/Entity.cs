@@ -13,13 +13,15 @@ public abstract class Entity
     protected AnimatedSprite _animSprite;
     public Vector2 Position { get; set; }
     public int HP { get; set; }
+    public float Speed { get; set; } // pixels per second
     public int MaxHP { get; set; }
     public bool IsActive { get; set; }
     public SpriteType SpriteType { get; }
 
-    public Entity(Sprite sprite, int maxHP, Vector2 position)
+    public Entity(Sprite sprite, int maxHP, Vector2 position, float speed = 0)
     {
         _sprite = sprite;
+        Speed = speed;
         MaxHP = maxHP;
         HP = maxHP;
         IsActive = HP > 0;
@@ -27,9 +29,10 @@ public abstract class Entity
         SpriteType = SpriteType.Normal;
     }
 
-    public Entity(AnimatedSprite sprite, int maxHP, Vector2 position)
+    public Entity(AnimatedSprite sprite, int maxHP, Vector2 position, float speed = 0)
     {
         _animSprite = sprite;
+        Speed = speed;
         MaxHP = maxHP;
         HP = maxHP;
         IsActive = HP > 0;
