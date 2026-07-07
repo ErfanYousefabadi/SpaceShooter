@@ -13,14 +13,6 @@ public abstract class Entity
     public int MaxHP { get; set; }
     public bool IsActive { get; set; }
 
-    public Entity(Sprite sprite, int maxHP)
-    {
-        _sprite = sprite;
-        MaxHP = maxHP;
-        HP = maxHP;
-        IsActive = HP > 0;
-    }
-
     public Entity(Sprite sprite, int maxHP, Vector2 position)
     {
         _sprite = sprite;

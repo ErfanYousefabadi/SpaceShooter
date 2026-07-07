@@ -15,12 +15,6 @@ public class Ship : Entity
     public int Score { get; set; }
     public int Coins { get; set; }
 
-    public Ship(Sprite sprite, int maxHP, float speed) 
-        : base(sprite, maxHP)
-    {
-        _speed = speed;
-    }
-
     public Ship(Sprite sprite, int maxHP, Vector2 pos, float speed) 
         : base(sprite, maxHP, pos)
     {
@@ -57,6 +51,16 @@ public class Ship : Entity
         
         Position = newPos;
     }
+
+    public Bullet Shoot(Sprite bs)
+    {
+        if (_timeSinceLastShot < _fireRate)
+            return null;
+        Vector2 pos = new(GetBounds().Left + _sprite.Width * 0.5f - bs.Width * 0.5f, GetBounds().Top);
+        Bullet bullet = new(bs, pos, new(0, -400), BulletOwner.Player, 20);
+        _timeSinceLastShot = TimeSpan.Zero;
+        return bullet;
+    }    
 
     public void Update(GameTime gameTime, Rectangle roomBounds)
     {
