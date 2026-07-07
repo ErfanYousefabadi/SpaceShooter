@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas>
+    <Texture>images/texture</Texture>
+    <Regions>
+        <Region name="ship" x="0" y="0" width="64" height="64" />
+        <Region name="bullet" x="26" y="94" width="12" height="14" />
+    </Regions>
+    <Animations>
+    </Animations>
+</TextureAtlas>
