@@ -7,13 +7,13 @@ namespace SpaceGame.Entities;
 
 public abstract class Entity
 {
-    protected AnimatedSprite _sprite;
+    protected Sprite _sprite;
     public Vector2 Position { get; set; }
     public int HP { get; set; }
     public int MaxHP { get; set; }
     public bool IsActive { get; set; }
 
-    public Entity(AnimatedSprite sprite, int maxHP)
+    public Entity(Sprite sprite, int maxHP)
     {
         _sprite = sprite;
         MaxHP = maxHP;
@@ -21,7 +21,7 @@ public abstract class Entity
         IsActive = HP > 0;
     }
 
-    public Entity(AnimatedSprite sprite, int maxHP, Vector2 position)
+    public Entity(Sprite sprite, int maxHP, Vector2 position)
     {
         _sprite = sprite;
         MaxHP = maxHP;
@@ -29,8 +29,6 @@ public abstract class Entity
         IsActive = HP > 0;
         Position = position;
     }
-
-    public virtual void Update(GameTime gameTime) { }
 
     public virtual void Draw()
     {
