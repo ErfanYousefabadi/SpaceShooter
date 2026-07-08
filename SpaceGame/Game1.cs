@@ -51,14 +51,22 @@ public class Game1 : Core
         List<Enemy> eremove = [];
         foreach (var b in _activeBullets)
         {
+            var bbounds = b.GetBounds();
             b.Update(gameTime);
-            if (b.GetBounds().Bottom < screenBounds.Top)
+            if (bbounds.Bottom < screenBounds.Top
+                || bbounds.Top > screenBounds.Bottom
+                || bbounds.Left > screenBounds.Right
+                || bbounds.Right < screenBounds.Left)
                 bremove.Add(b);
         }
         foreach (var e in _activeEnemies)
         {
+            var ebounds = e.GetBounds();
             e.Update(gameTime, _activeBullets, _bulletSprite);
-            if (e.GetBounds().Top > screenBounds.Bottom)
+            if (ebounds.Bottom < screenBounds.Top
+                || ebounds.Top > screenBounds.Bottom
+                || ebounds.Left > screenBounds.Right
+                || ebounds.Right < screenBounds.Left)
                 eremove.Add(e);
         }
 
@@ -72,7 +80,7 @@ public class Game1 : Core
 
         if (Input.Mouse.WasButtonJustPressed(MonoGameLibrary.Input.MouseButton.Left))
         {
-            ShooterEnemy e = new(_enemySprite, Input.Mouse.Position.ToVector2(), 100, 30, 30, 1, null);
+            HeavyTankEnemy e = new(_enemySprite, Input.Mouse.Position.ToVector2(), 100, 30, 30, 1, null);
 
             e.ApplyWaveScaling(1);
 
