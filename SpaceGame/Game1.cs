@@ -80,7 +80,8 @@ public class Game1 : Core
 
         if (Input.Mouse.WasButtonJustPressed(MonoGameLibrary.Input.MouseButton.Left))
         {
-            HeavyTankEnemy e = new(_enemySprite, Input.Mouse.Position.ToVector2(), 100, 30, 30, 1, null);
+            // HeavyTankEnemy e = new(_enemySprite, Input.Mouse.Position.ToVector2(), 30, 30, 30, 1, null);
+            ScoutEnemy e = new(_enemySprite, Input.Mouse.Position.ToVector2(), 100, 30, 30, 1, null, 5, 10);
 
             e.ApplyWaveScaling(1);
 
