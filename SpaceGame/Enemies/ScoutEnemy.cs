@@ -17,14 +17,6 @@ public class ScoutEnemy : Enemy
         _frequency = freq;
     }
 
-    public ScoutEnemy(AnimatedSprite sprite, Vector2 pos, float baseSpeed, int baseHP, 
-        int scoreValue, float coinDropChance, Vector2? target, float amplitude, float freq) 
-        : base(sprite, pos, baseSpeed, baseHP, scoreValue, coinDropChance, target)
-    {
-        _amplitude = amplitude;
-        _frequency = freq;
-    }
-
     public override void Move(GameTime gameTime)
     {
         var newPos = Position;

@@ -16,10 +16,6 @@ public class ShooterEnemy : Enemy
         int scoreValue, float coinDropChance, Vector2? target) 
         : base(sprite, pos, baseSpeed, baseHP, scoreValue, coinDropChance, target) {}
 
-    public ShooterEnemy(AnimatedSprite sprite, Vector2 pos, float baseSpeed, int baseHP, 
-        int scoreValue, float coinDropChance, Vector2? target) 
-        : base(sprite, pos, baseSpeed, baseHP, scoreValue, coinDropChance, target) {}
-
     public override void Move(GameTime gameTime)
     {
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;

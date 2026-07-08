@@ -28,17 +28,6 @@ public abstract class Enemy : Entity
         Target = target;
     }
 
-    public Enemy(AnimatedSprite sprite, Vector2 pos, float baseSpeed, int baseHP, 
-        int scoreValue, float coinDropChance, Vector2? target) 
-        : base(sprite, baseHP + 20, pos)
-    {
-        _baseSpeed = baseSpeed;
-        _baseHP = baseHP;
-        ScoreValue = scoreValue;
-        CoinDropChance = coinDropChance;
-        Target = target;
-    }
-
     public abstract void Move(GameTime gameTime);
 
     public virtual void Update(GameTime gameTime, List<Bullet> activeBullets, Sprite bulletSprite)
