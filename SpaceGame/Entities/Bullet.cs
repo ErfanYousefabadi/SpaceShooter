@@ -20,6 +20,7 @@ public class Bullet : Entity
         _velocity = direction * speed;
         Owner = bulletOwner;
         Damage = damage;
+        sprite.CenterOrigin();
     }
 
     public override void Update(GameTime gameTime)

@@ -45,7 +45,7 @@ public class ShooterEnemy : Enemy
     public override void Shoot(List<Bullet> activeBullets, Sprite bulletSprite) 
     {
         Circle bounds = GetBounds();
-        Vector2 pos = new(bounds.Location.X - bulletSprite.Width * 0.5f, bounds.Bottom);
+        Vector2 pos = new(bounds.Location.X, bounds.Bottom);
         Bullet b = new(bulletSprite, pos, 400, Vector2.UnitY, BulletOwner.Enemy, 20);
         activeBullets.Add(b);
     }

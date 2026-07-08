@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
+﻿using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -30,7 +28,7 @@ public class Game1 : Core
         base.Initialize();
         Sprite shipSprite = new(_atlas.GetRegion("ship"));
         _bulletSprite = new(_atlas.GetRegion("bullet"));
-        _bulletSprite.Scale = new(1, 1);
+        _bulletSprite.Scale = new(1.5f, 1.5f);
         shipSprite.Scale = new(2, 2);
         _ship = new(shipSprite, 20, new(100, 100), 300);
         _enemySprite = new(_atlas.GetRegion("ship"));

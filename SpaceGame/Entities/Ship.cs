@@ -56,7 +56,7 @@ public class Ship : Entity
     {
         if (_timeSinceLastShot < _fireRate)
             return;
-        Vector2 pos = new(GetBounds().Left + _sprite.Width * 0.5f - bs.Width * 0.5f, GetBounds().Top);
+        Vector2 pos = new(GetBounds().Location.X, GetBounds().Top);
         Bullet bullet = new(bs, pos, 400, new(0, -1), BulletOwner.Player, 20);
         _timeSinceLastShot = TimeSpan.Zero;
         activeBullets.Add(bullet);
