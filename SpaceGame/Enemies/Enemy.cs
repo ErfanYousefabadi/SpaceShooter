@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using MonoGameLibrary.Graphics;
 using SpaceGame.Entities;
@@ -38,7 +41,13 @@ public abstract class Enemy : Entity
 
     public abstract void Move(GameTime gameTime);
 
-    public virtual void Shoot() { }
+    public virtual void Update(GameTime gameTime, List<Bullet> activeBullets, Sprite bulletSprite)
+    {
+        base.Update(gameTime);
+        Move(gameTime);
+    }
+
+    public virtual void Shoot(List<Bullet> bullets, Sprite bulletSprite) { }
 
     public virtual void ApplyWaveScaling(int wave)
     {

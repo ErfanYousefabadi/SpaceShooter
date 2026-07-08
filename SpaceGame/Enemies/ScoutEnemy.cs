@@ -1,8 +1,6 @@
 using System;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.Xna.Framework;
 using MonoGameLibrary.Graphics;
-using SpaceGame.Entities;
 
 namespace SpaceGame.Enemies;
 

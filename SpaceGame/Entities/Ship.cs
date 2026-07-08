@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
@@ -51,14 +52,14 @@ public class Ship : Entity
         Position = newPos;
     }
 
-    public Bullet Shoot(Sprite bs)
+    public void Shoot(Sprite bs, List<Bullet> activeBullets)
     {
         if (_timeSinceLastShot < _fireRate)
-            return null;
+            return;
         Vector2 pos = new(GetBounds().Left + _sprite.Width * 0.5f - bs.Width * 0.5f, GetBounds().Top);
         Bullet bullet = new(bs, pos, 400, new(0, -1), BulletOwner.Player, 20);
         _timeSinceLastShot = TimeSpan.Zero;
-        return bullet;
+        activeBullets.Add(bullet);
     }    
 
     public void Update(GameTime gameTime, Rectangle roomBounds)

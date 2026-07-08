@@ -22,10 +22,12 @@ public class Bullet : Entity
         Damage = damage;
     }
 
-    public void Update(GameTime gameTime)
+    public override void Update(GameTime gameTime)
     {
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
         Position += _velocity * deltaTime;
+
+        base.Update(gameTime);
     }
     
     public bool IsOffScreen(Rectangle roomBounds)
