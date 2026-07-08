@@ -19,5 +19,7 @@ public class StandardEnemy : Enemy
 
         var newPos = Position;
         newPos.Y += Speed * deltaTime;
+
+        Position = newPos;
     }
 }
