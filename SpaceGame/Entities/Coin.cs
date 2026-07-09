@@ -1,6 +1,4 @@
-using System;
 using Microsoft.Xna.Framework;
-using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 
 namespace SpaceGame.Entities;
@@ -11,7 +9,7 @@ public class Coin : Entity
 {
     public CoinType Type { get; set; }
     public int Value { get; set; }
-    const int FALLING_SPEED = 200;
+    const int FALLING_SPEED = 100;
 
     public Coin(Sprite sprite, Vector2 pos, CoinType type, int? value) : base(sprite, 1, pos)
     {
