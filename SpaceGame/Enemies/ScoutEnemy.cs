@@ -1,0 +1,32 @@
+using System;
+using Microsoft.Xna.Framework;
+using MonoGameLibrary.Graphics;
+
+namespace SpaceGame.Enemies;
+
+public class ScoutEnemy : Enemy
+{
+    private float _amplitude;
+    private float _frequency;
+    private TimeSpan _totalTime = TimeSpan.Zero;
+
+    public ScoutEnemy(Sprite sprite, Vector2 pos, float baseSpeed, int baseHP, 
+        int scoreValue, float coinDropChance, Vector2? target, float amplitude, float freq) 
+        : base(sprite, pos, baseSpeed, baseHP, scoreValue, coinDropChance, target)
+    {
+        _amplitude = amplitude;
+        _frequency = freq;
+    }
+
+    public override void Move(GameTime gameTime)
+    {
+        var newPos = Position;
+        _totalTime += gameTime.ElapsedGameTime;
+        float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+        newPos.X += (float)Math.Sin(_totalTime.TotalSeconds * _frequency) * _amplitude;
+        newPos.Y += deltaTime * Speed;
+
+        Position = newPos;
+    }
+}
