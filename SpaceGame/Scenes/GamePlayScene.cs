@@ -28,14 +28,16 @@ public class GamePlayScene : Scene
         base.Initialize();
 
         Sprite shipSprite = new(_atlas.GetRegion("ship"));
+
         _bulletSprite = new(_atlas.GetRegion("bullet"));
-        _bulletSprite.Scale = new(1.5f, 1.5f);
-        shipSprite.Scale = new(2, 2);
-        _ship = new(shipSprite, 20, new(100, 100), 300);
+
         _enemySprite = new(_atlas.GetRegion("ship"));
-        _enemySprite.Origin = new Vector2(_enemySprite.Width, _enemySprite.Height) * 0.5f;
+        _enemySprite.CenterOrigin();
         _enemySprite.Rotation = MathHelper.Pi;
+
         _explosionAnimation = _explosionAtlas.GetAnimation("explosion-animation");
+
+        _ship = new(shipSprite, new(100, 100));
     }
 
     public override void LoadContent()

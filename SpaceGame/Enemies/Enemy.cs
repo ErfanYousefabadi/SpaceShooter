@@ -1,6 +1,4 @@
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using Microsoft.Xna.Framework;
 using MonoGameLibrary.Graphics;
 using SpaceGame.Entities;

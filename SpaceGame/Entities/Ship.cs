@@ -8,17 +8,24 @@ using SpaceGame.Entities;
 
 public class Ship : Entity
 {
-    private TimeSpan _fireRate = TimeSpan.FromMilliseconds(200);
-    private TimeSpan _timeSinceLastShot = TimeSpan.FromMilliseconds(200);
+    private static TimeSpan _fireRate = TimeSpan.FromMilliseconds(200);
+    private const int _bulletSpeed = 600;
+    private const int _maxhp = 100;
+    private const int _bulletDamage = 10;
+    private const int _shipSpeed = 350;
+
+    private TimeSpan _timeSinceLastShot = _fireRate;
 
     public int Score { get; set; }
     public int Coins { get; set; }
 
-    public Ship(Sprite sprite, int maxHP, Vector2 pos, float speed) 
-        : base(sprite, maxHP, pos, speed)
+    public Ship(Sprite sprite, Vector2 pos) 
+        : base(sprite, _maxhp, pos, _shipSpeed)
     {
+        _sprite.Scale = Vector2.One * 64 / _sprite.Width;
+        // makes the texture 64 * 64
         Score = 0;
-        Coins = 0;    
+        Coins = 0;
     }
 
     private void Move(float deltaTime, Rectangle roomBounds)
@@ -57,7 +64,13 @@ public class Ship : Entity
         if (_timeSinceLastShot < _fireRate)
             return;
         Vector2 pos = new(GetBounds().Location.X, GetBounds().Top);
-        Bullet bullet = new(bs, pos, 400, new(0, -1), BulletOwner.Player, 20);
+        Bullet bullet = new(
+            bs, pos, 
+            _bulletSpeed, 
+            -Vector2.UnitY, 
+            BulletOwner.Player, 
+            _bulletDamage
+        );
         _timeSinceLastShot = TimeSpan.Zero;
         activeBullets.Add(bullet);
     }    
