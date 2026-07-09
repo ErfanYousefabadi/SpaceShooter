@@ -75,7 +75,7 @@ public class GamePlayScene : Scene
 
         if (Core.Input.Mouse.WasButtonJustPressed(MonoGameLibrary.Input.MouseButton.Left))
         {
-            TerroristEnemy e = new(_enemySprite, Core.Input.Mouse.Position.ToVector2(), 100, 30, 30, 1, _ship.Position);
+            TerroristEnemy e = new(_enemySprite, Core.Input.Mouse.Position.ToVector2(), _ship.Position);
 
             e.ApplyWaveScaling(10);
 

@@ -9,12 +9,24 @@ namespace SpaceGame.Enemies;
 
 public class ShooterEnemy : Enemy
 {
+    private const int SPRITE_SIZE = 52;
+    private const int BASE_HP = 30;
+    private const int BASE_SPEED = 80;
+    private const int CONTACT_DAMAGE = 15;
+    private const int SCORE_VALUE = 100;
+    private const float COIN_DROP = 0.5f;
+    private const int BULLET_SPEED = 300;
+    private const int BULLET_DAMAGE = 8;
+
     private TimeSpan _fireRate = TimeSpan.FromMilliseconds(1500);
     private TimeSpan _timeSinceLastShot = TimeSpan.Zero;
 
-    public ShooterEnemy(Sprite sprite, Vector2 pos, float baseSpeed, int baseHP, 
-        int scoreValue, float coinDropChance, Vector2? target) 
-        : base(sprite, pos, baseSpeed, baseHP, scoreValue, coinDropChance, target) {}
+    public ShooterEnemy(Sprite sprite, Vector2 pos) 
+        : base(sprite, pos, BASE_SPEED, BASE_HP, SCORE_VALUE, COIN_DROP, null, CONTACT_DAMAGE)
+    {
+        CoinDropType = CoinType.Silver;
+        _sprite.Scale = Vector2.One * SPRITE_SIZE / _sprite.Region.Width;
+    }
 
     public override void Move(GameTime gameTime)
     {
@@ -42,7 +54,7 @@ public class ShooterEnemy : Enemy
     {
         Circle bounds = GetBounds();
         Vector2 pos = new(bounds.Location.X, bounds.Bottom);
-        Bullet b = new(bulletSprite, pos, 400, Vector2.UnitY, BulletOwner.Enemy, 20);
+        Bullet b = new(bulletSprite, pos, BULLET_SPEED, Vector2.UnitY, BulletOwner.Enemy, BULLET_DAMAGE);
         activeBullets.Add(b);
     }
 }

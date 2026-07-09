@@ -22,7 +22,7 @@ public class Ship : Entity
     public Ship(Sprite sprite, Vector2 pos) 
         : base(sprite, _maxhp, pos, _shipSpeed)
     {
-        _sprite.Scale = Vector2.One * 64 / _sprite.Width;
+        _sprite.Scale = Vector2.One * 64 / _sprite.Region.Width;
         // makes the texture 64 * 64
         Score = 0;
         Coins = 0;

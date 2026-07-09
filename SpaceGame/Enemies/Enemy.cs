@@ -9,6 +9,7 @@ public abstract class Enemy : Entity
 {
     protected float _baseSpeed;
     protected int _baseHP;
+    protected int _contactDamage;
 
     public int ScoreValue { get; set; }
     public float CoinDropChance { get; set; }
@@ -16,7 +17,7 @@ public abstract class Enemy : Entity
     public Vector2? Target { get; set; }
 
     public Enemy(Sprite sprite, Vector2 pos, float baseSpeed, int baseHP, 
-        int scoreValue, float coinDropChance, Vector2? target) 
+        int scoreValue, float coinDropChance, Vector2? target, int contactDamage) 
         : base(sprite, baseHP + 20, pos)
     {
         _baseSpeed = baseSpeed;
@@ -24,6 +25,7 @@ public abstract class Enemy : Entity
         ScoreValue = scoreValue;
         CoinDropChance = coinDropChance;
         Target = target;
+        _contactDamage = contactDamage;
     }
 
     public abstract void Move(GameTime gameTime);

@@ -9,9 +9,19 @@ namespace SpaceGame.Enemies;
 
 public class TerroristEnemy : Enemy
 {
-    public TerroristEnemy(Sprite sprite, Vector2 pos, float baseSpeed, int baseHP, 
-        int scoreValue, float coinDropChance, Vector2? target) 
-        : base(sprite, pos, baseSpeed, baseHP, scoreValue, coinDropChance, target) {}
+    private const int SPRITE_SIZE = 44;
+    private const int BASE_HP = 10;
+    private const int BASE_SPEED = 200;
+    private const int CONTACT_DAMAGE = 30;
+    private const int SCORE_VALUE = 125;
+    private const float COIN_DROP = 0.3f;
+
+    public TerroristEnemy(Sprite sprite, Vector2 pos, Vector2? target) 
+        : base(sprite, pos, BASE_SPEED, BASE_HP, SCORE_VALUE, COIN_DROP, target, CONTACT_DAMAGE)
+    {
+        CoinDropType = CoinType.Silver;
+        _sprite.Scale = Vector2.One * SPRITE_SIZE / _sprite.Region.Width;
+    }
 
     public override void Move(GameTime gameTime)
     {
