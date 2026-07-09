@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -53,67 +54,47 @@ public class Game1 : Core
         var screenBounds = GraphicsDevice.PresentationParameters.Bounds;
         _ship.Update(gameTime, screenBounds);
 
-        List<Bullet> bulletRemove = [];
-        List<Enemy> enemyRemove = [];
-        List<Explosion> explosionRemove = [];
         foreach (var b in _activeBullets)
-        {
-            var bbounds = b.GetBounds();
             b.Update(gameTime);
-            if (bbounds.Bottom < screenBounds.Top
-                || bbounds.Top > screenBounds.Bottom
-                || bbounds.Left > screenBounds.Right
-                || bbounds.Right < screenBounds.Left)
-                bulletRemove.Add(b);
-        }
         foreach (var e in _activeEnemies)
         {
-            var ebounds = e.GetBounds();
-            e.Update(gameTime, _activeBullets, _bulletSprite);
-            if (ebounds.Bottom < screenBounds.Top
-                || ebounds.Top > screenBounds.Bottom
-                || ebounds.Left > screenBounds.Right
-                || ebounds.Right < screenBounds.Left)
-                enemyRemove.Add(e);
+            if (e is not TerroristEnemy)
+                e.Update(gameTime, _activeBullets, _bulletSprite);
+            else if (e is TerroristEnemy x)
+                x.Update(gameTime, _ship.GetBounds().Location.ToVector2());
         }
-
         foreach (var e in _activeExplosions)
-        {
             e.Update(gameTime);
-            if (e.IsFinished)
-            {
-                explosionRemove.Add(e);
-            }
-        }
 
-        foreach(var b in bulletRemove)
-            _activeBullets.Remove(b);
-        foreach(var e in enemyRemove)
-            _activeEnemies.Remove(e);
-        foreach(var e in explosionRemove)
-            _activeExplosions.Remove(e);
+        _activeBullets.RemoveAll(b => IsCompletelyOut(b.GetBounds(), screenBounds) || !b.IsActive);
+        _activeEnemies.RemoveAll(e => IsCompletelyOut(e.GetBounds(), screenBounds) || !e.IsActive);
+        _activeExplosions.RemoveAll(e => e.IsFinished);
         
         if (Input.Keyboard.IsKeyDown(Keys.Space))
             _ship.Shoot(_bulletSprite, _activeBullets);
-
-        // if (Input.Mouse.WasButtonJustPressed(MonoGameLibrary.Input.MouseButton.Left))
-        // {
-        //     ScoutEnemy e = new(_enemySprite, Input.Mouse.Position.ToVector2(), 100, 30, 30, 1, null, 5, 10);
-
-        //     e.ApplyWaveScaling(1);
-
-        //     _activeEnemies.Add(e);
-        // }
+        if (Input.Keyboard.WasKeyJustPressed(Keys.E))
+            foreach (TerroristEnemy e in _activeEnemies.Where(e => e is TerroristEnemy))
+                e.Explode(_activeExplosions, _explosionAnimation);
 
         if (Input.Mouse.WasButtonJustPressed(MonoGameLibrary.Input.MouseButton.Left))
         {
-            AnimatedSprite sprite = new(_explosionAnimation);
-            sprite.Scale = new(4, 4);
-            Explosion e = new(sprite, Input.Mouse.Position.ToVector2());
-            _activeExplosions.Add(e);
+            TerroristEnemy e = new(_enemySprite, Input.Mouse.Position.ToVector2(), 100, 30, 30, 1, _ship.Position);
+
+            e.ApplyWaveScaling(10);
+
+            _activeEnemies.Add(e);
         }
 
         base.Update(gameTime);
+    }
+
+    private static bool IsCompletelyOut (Circle x, Rectangle screenBounds)
+    {
+        return x.Bottom < screenBounds.Top
+            || x.Top > screenBounds.Bottom
+            || x.Left > screenBounds.Right
+            || x.Right < screenBounds.Left;
+
     }
 
     protected override void Draw(GameTime gameTime)
