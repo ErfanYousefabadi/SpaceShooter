@@ -1,4 +1,5 @@
 using System;
+using System.Reflection.Metadata.Ecma335;
 using Microsoft.Xna.Framework;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
@@ -44,7 +45,7 @@ public abstract class Entity
 
     public virtual Circle GetBounds()
     {
-        Vector2 center = Position - _sprite.Origin + new Vector2(_sprite.Width, _sprite.Height) * 0.5f;
+        Vector2 center = Position - _sprite.Origin * _sprite.Scale + new Vector2(_sprite.Width, _sprite.Height) * 0.5f;
 
         return new Circle(
             (int)center.X,
