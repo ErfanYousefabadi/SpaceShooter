@@ -12,16 +12,20 @@ public class ScoutEnemy : Enemy
     private const int CONTACT_DAMAGE = 10;
     private const int SCORE_VALUE = 75;
     private const float COIN_DROP = 0.35f;
+    private const float AMPLITUDE = 100;
+    private const float FREQ = 3;
 
+    private float _baseX;
     private float _amplitude;
     private float _frequency;
     private TimeSpan _totalTime = TimeSpan.Zero;
 
-    public ScoutEnemy(Sprite sprite, Vector2 pos, float amplitude, float freq)
+    public ScoutEnemy(Sprite sprite, Vector2 pos)
         : base(sprite, pos, BASE_SPEED, BASE_HP, SCORE_VALUE, COIN_DROP, null, CONTACT_DAMAGE)
     {
-        _amplitude = amplitude;
-        _frequency = freq;
+        _amplitude = AMPLITUDE;
+        _frequency = FREQ;
+        _baseX = pos.X;
 
         _sprite.Scale = Vector2.One * SPRITE_SIZE / _sprite.Region.Width;
         CoinDropType = Entities.CoinType.Silver;
@@ -33,7 +37,7 @@ public class ScoutEnemy : Enemy
         _totalTime += gameTime.ElapsedGameTime;
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-        newPos.X += (float)Math.Sin(_totalTime.TotalSeconds * _frequency) * _amplitude;
+        newPos.X = _baseX + (float)Math.Sin(_totalTime.TotalSeconds * _frequency) * _amplitude;
         newPos.Y += deltaTime * Speed;
 
         Position = newPos;

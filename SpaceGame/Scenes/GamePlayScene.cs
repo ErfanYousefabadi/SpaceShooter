@@ -75,9 +75,9 @@ public class GamePlayScene : Scene
 
         if (Core.Input.Mouse.WasButtonJustPressed(MonoGameLibrary.Input.MouseButton.Left))
         {
-            TerroristEnemy e = new(_enemySprite, Core.Input.Mouse.Position.ToVector2(), null);
+            ScoutEnemy e = new(_enemySprite, Core.Input.Mouse.Position.ToVector2());
 
-            e.ApplyWaveScaling(10);
+            e.ApplyWaveScaling(1);
 
             _activeEnemies.Add(e);
         }
