@@ -48,13 +48,13 @@ public class Ship : Entity
         Vector2 newPos = Position;
 
         if (shipBound.Top < roomBounds.Top)
-            newPos.Y = 0;
+            newPos.Y = shipBound.Radius;
         if (shipBound.Bottom > roomBounds.Bottom)
-            newPos.Y = roomBounds.Bottom - _sprite.Height;
+            newPos.Y = roomBounds.Bottom - shipBound.Radius;
         if (shipBound.Left < roomBounds.Left)
-            newPos.X = 0;
+            newPos.X = shipBound.Radius;
         if (shipBound.Right > roomBounds.Right)
-            newPos.X = roomBounds.Right - _sprite.Width;
+            newPos.X = roomBounds.Right - shipBound.Radius;
 
         Position = newPos;
     }

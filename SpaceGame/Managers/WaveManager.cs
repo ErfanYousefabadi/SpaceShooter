@@ -25,7 +25,7 @@ public class WaveManager
     private const int WIDTH_OF_ALL_LANES = 1280;
     private static readonly Dictionary<int, WaveConfig> WaveTable = new();
     private int _previousLane = -1;
-    private static readonly Dictionary<EnemyType, Sprite> Sprites = [];
+    private SpriteFactory _spriteFactory;
 
     public int CurrentWave { get; private set; }
     public bool IsWaveComplete { get; private set; }
@@ -151,13 +151,9 @@ public class WaveManager
         WaveTable.Add(10, w10);
     }
 
-    public WaveManager(Sprite standard, Sprite scout, Sprite shooter, Sprite heavy, Sprite terrorist)
+    public WaveManager(SpriteFactory spriteFactory)
     {
-        Sprites.Add(EnemyType.Standard, standard);
-        Sprites.Add(EnemyType.Scout, scout);
-        Sprites.Add(EnemyType.Shooter, shooter);
-        Sprites.Add(EnemyType.Terrorist, terrorist);
-        Sprites.Add(EnemyType.HeavyTank, heavy);
+        _spriteFactory = spriteFactory;
     }
 
     public void StartWave(int waveNumber)
@@ -193,7 +189,7 @@ public class WaveManager
         {
             _spawnTimer -= _interval;
             var type = _spawnQueue.Dequeue();
-            activeEnemies.Add(CreateEnemy(type, Sprites[type]));
+            activeEnemies.Add(CreateEnemy(type, _spriteFactory.CreateEnemySprite(type)));
         }
     }
 
@@ -208,7 +204,7 @@ public class WaveManager
             backupLane = rng.Next(1, 7);
         } while (lane == _previousLane && backupLane != _previousLane);
 
-        _previousLane = lane;
+        _previousLane = type == EnemyType.Scout ? backupLane : lane;
 
         Vector2 pos = new((lane + 0.5f) * laneWidth, -enemySprite.Height * 0.5f);
         Vector2 backupPos = new((backupLane + 0.5f) * laneWidth, -enemySprite.Height * 0.5f);

@@ -15,38 +15,24 @@ namespace SpaceGame.Scenes;
 public class GamePlayScene : Scene
 {
     private Ship _ship;
-    private Sprite _bulletSprite;
-    private Sprite _enemySprite;
-    private Animation _explosionAnimation;
     private TextureAtlas _atlas;
     private TextureAtlas _explosionAtlas;
+    private Animation _explosionAnimation;
     private List<Bullet> _activeBullets = [];
     private List<Enemy> _activeEnemies = [];
     private List<Explosion> _activeExplosions = [];
+    private SpriteFactory _spriteFactory;
     private WaveManager _waveManager;
 
     public override void Initialize()
     {
         base.Initialize();
 
-        Sprite shipSprite = new(_atlas.GetRegion("ship"));
-
-        _bulletSprite = new(_atlas.GetRegion("bullet"));
-
-        _enemySprite = new(_atlas.GetRegion("ship"));
-        _enemySprite.CenterOrigin();
-        _enemySprite.Rotation = MathHelper.Pi;
-
+        _spriteFactory = new(_atlas);
         _explosionAnimation = _explosionAtlas.GetAnimation("explosion-animation");
 
-        _ship = new(shipSprite, new(100, 100));
-        _waveManager = new(
-            new(_atlas.GetRegion("ship")),
-            new(_atlas.GetRegion("ship")),
-            new(_atlas.GetRegion("ship")),
-            new(_atlas.GetRegion("ship")),
-            new(_atlas.GetRegion("ship"))
-        );
+        _ship = new(_spriteFactory.CreateShipSprite(), new(100, 100));
+        _waveManager = new(_spriteFactory);
         _waveManager.StartWave(1);
     }
 
@@ -66,7 +52,7 @@ public class GamePlayScene : Scene
         foreach (var e in _activeEnemies)
         {
             if (e is not TerroristEnemy)
-                e.Update(gameTime, _activeBullets, _bulletSprite);
+                e.Update(gameTime, _activeBullets, _spriteFactory.CreateBulletSprite());
             else if (e is TerroristEnemy x)
                 x.Update(gameTime, _ship.GetBounds().Location.ToVector2());
         }
@@ -83,7 +69,7 @@ public class GamePlayScene : Scene
         _activeExplosions.RemoveAll(e => e.IsFinished);
 
         if (Core.Input.Keyboard.IsKeyDown(Keys.Space))
-            _ship.Shoot(_bulletSprite, _activeBullets);
+            _ship.Shoot(_spriteFactory.CreateBulletSprite(), _activeBullets);
         if (Core.Input.Keyboard.WasKeyJustPressed(Keys.E))
             foreach (TerroristEnemy e in _activeEnemies.Where(e => e is TerroristEnemy))
                 e.Explode(_activeExplosions, _explosionAnimation);

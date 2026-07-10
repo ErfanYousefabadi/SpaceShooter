@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Microsoft.Xna.Framework;
 using MonoGameLibrary.Graphics;
 
 namespace SpaceGame.Managers;
@@ -8,7 +9,7 @@ public class SpriteFactory
     private TextureAtlas _atlas;
     private TextureRegion _shipRegion;
     private TextureRegion _bulletRegion;
-    private Animation _explosionAnimation;
+    // private Animation _explosionAnimation;
 
     private Dictionary<EnemyType, TextureRegion> _enemyRegions;
 
@@ -18,7 +19,7 @@ public class SpriteFactory
 
         _shipRegion = _atlas.GetRegion("ship");
         _bulletRegion = _atlas.GetRegion("bullet");
-        _explosionAnimation = _atlas.GetAnimation("explosion-animation");
+        // _explosionAnimation = _atlas.GetAnimation("explosion-animation");
 
         _enemyRegions = new Dictionary<EnemyType, TextureRegion>
         {
@@ -36,11 +37,15 @@ public class SpriteFactory
     public Sprite CreateBulletSprite() 
         => CenterOrigin(new Sprite(_bulletRegion));
 
-    public Sprite CreateEnemySprite(EnemyType type) 
-        => CenterOrigin(new Sprite(_enemyRegions[type]));
+    public Sprite CreateEnemySprite(EnemyType type)
+    {
+        var ans = CenterOrigin(new Sprite(_enemyRegions[type]));
+        ans.Rotation = MathHelper.Pi;
+        return ans;
+    }
 
-    public AnimatedSprite CreateExplosionSprite() 
-        => CenterOrigin(new AnimatedSprite(_explosionAnimation));
+    // public AnimatedSprite CreateExplosionSprite() 
+    //     => CenterOrigin(new AnimatedSprite(_explosionAnimation));
 
     private static Sprite CenterOrigin(Sprite x)
     {
