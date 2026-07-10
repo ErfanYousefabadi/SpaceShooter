@@ -16,8 +16,8 @@ public abstract class Enemy : Entity
     public CoinType CoinDropType { get; set; }
     public Vector2? Target { get; set; }
 
-    public Enemy(Sprite sprite, Vector2 pos, float baseSpeed, int baseHP, 
-        int scoreValue, float coinDropChance, Vector2? target, int contactDamage) 
+    public Enemy(Sprite sprite, Vector2 pos, float baseSpeed, int baseHP,
+        int scoreValue, float coinDropChance, Vector2? target, int contactDamage)
         : base(sprite, baseHP + 20, pos)
     {
         _baseSpeed = baseSpeed;

@@ -17,7 +17,7 @@ public class ScoutEnemy : Enemy
     private float _frequency;
     private TimeSpan _totalTime = TimeSpan.Zero;
 
-    public ScoutEnemy(Sprite sprite, Vector2 pos, float amplitude, float freq) 
+    public ScoutEnemy(Sprite sprite, Vector2 pos, float amplitude, float freq)
         : base(sprite, pos, BASE_SPEED, BASE_HP, SCORE_VALUE, COIN_DROP, null, CONTACT_DAMAGE)
     {
         _amplitude = amplitude;

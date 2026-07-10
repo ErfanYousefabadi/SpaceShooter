@@ -16,7 +16,7 @@ public class TerroristEnemy : Enemy
     private const int SCORE_VALUE = 125;
     private const float COIN_DROP = 0.3f;
 
-    public TerroristEnemy(Sprite sprite, Vector2 pos, Vector2? target) 
+    public TerroristEnemy(Sprite sprite, Vector2 pos, Vector2? target)
         : base(sprite, pos, BASE_SPEED, BASE_HP, SCORE_VALUE, COIN_DROP, target, CONTACT_DAMAGE)
     {
         CoinDropType = CoinType.Silver;
@@ -28,7 +28,7 @@ public class TerroristEnemy : Enemy
         if (Target == null) return;
 
         float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
-        
+
         Vector2 dir = (Vector2)Target - GetBounds().Location.ToVector2();
         if (dir.Length() < 2) return;
         dir.Normalize();

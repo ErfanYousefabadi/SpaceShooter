@@ -3,7 +3,7 @@ using MonoGameLibrary.Graphics;
 
 namespace SpaceGame.Entities;
 
-public enum CoinType { Silver = 1, Gold = 5}
+public enum CoinType { Silver = 1, Gold = 5 }
 
 public class Coin : Entity
 {
@@ -14,7 +14,7 @@ public class Coin : Entity
     public Coin(Sprite sprite, Vector2 pos, CoinType type, int? value) : base(sprite, 1, pos)
     {
         Type = type;
-        Value = value??((int)type);
+        Value = value ?? ((int)type);
     }
 
     public override void Update(GameTime gameTime)

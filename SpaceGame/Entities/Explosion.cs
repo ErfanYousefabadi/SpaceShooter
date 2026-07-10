@@ -14,7 +14,8 @@ public class Explosion
 
     public bool IsFinished { get; private set; } = false;
 
-    public Explosion(AnimatedSprite sprite, Vector2 position) {
+    public Explosion(AnimatedSprite sprite, Vector2 position)
+    {
         _sprite = sprite;
         _position = position;
         _maxtime = _sprite.Animation.Frames.Count * _sprite.Animation.Delay;

@@ -66,7 +66,7 @@ public class GamePlayScene : Scene
         _activeBullets.RemoveAll(b => IsCompletelyOut(b.GetBounds(), screenBounds) || !b.IsActive);
         _activeEnemies.RemoveAll(e => IsCompletelyOut(e.GetBounds(), screenBounds) || !e.IsActive);
         _activeExplosions.RemoveAll(e => e.IsFinished);
-        
+
         if (Core.Input.Keyboard.IsKeyDown(Keys.Space))
             _ship.Shoot(_bulletSprite, _activeBullets);
         if (Core.Input.Keyboard.WasKeyJustPressed(Keys.E))
@@ -75,7 +75,7 @@ public class GamePlayScene : Scene
 
         if (Core.Input.Mouse.WasButtonJustPressed(MonoGameLibrary.Input.MouseButton.Left))
         {
-            TerroristEnemy e = new(_enemySprite, Core.Input.Mouse.Position.ToVector2(), _ship.Position);
+            TerroristEnemy e = new(_enemySprite, Core.Input.Mouse.Position.ToVector2(), null);
 
             e.ApplyWaveScaling(10);
 
@@ -83,7 +83,7 @@ public class GamePlayScene : Scene
         }
     }
 
-    private bool IsCompletelyOut (Circle x, Rectangle screenBounds)
+    private bool IsCompletelyOut(Circle x, Rectangle screenBounds)
     {
         return x.Bottom < screenBounds.Top
             || x.Top > screenBounds.Bottom

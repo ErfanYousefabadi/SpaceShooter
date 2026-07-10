@@ -21,7 +21,7 @@ public class ShooterEnemy : Enemy
     private TimeSpan _fireRate = TimeSpan.FromMilliseconds(1500);
     private TimeSpan _timeSinceLastShot = TimeSpan.Zero;
 
-    public ShooterEnemy(Sprite sprite, Vector2 pos) 
+    public ShooterEnemy(Sprite sprite, Vector2 pos)
         : base(sprite, pos, BASE_SPEED, BASE_HP, SCORE_VALUE, COIN_DROP, null, CONTACT_DAMAGE)
     {
         CoinDropType = CoinType.Silver;
@@ -50,7 +50,7 @@ public class ShooterEnemy : Enemy
         }
     }
 
-    public override void Shoot(List<Bullet> activeBullets, Sprite bulletSprite) 
+    public override void Shoot(List<Bullet> activeBullets, Sprite bulletSprite)
     {
         Circle bounds = GetBounds();
         Vector2 pos = new(bounds.Location.X, bounds.Bottom);

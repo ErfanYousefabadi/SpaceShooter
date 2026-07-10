@@ -39,7 +39,7 @@ public abstract class Entity
     public virtual void Update(GameTime gameTime)
     {
         if (_sprite is AnimatedSprite a)
-            a.UpdateAnimetion(gameTime);    
+            a.UpdateAnimetion(gameTime);
     }
 
     public virtual Circle GetBounds()
@@ -61,5 +61,5 @@ public abstract class Entity
         if (HP == 0) IsActive = false;
     }
 
-    protected virtual void OnDestroyed() {}
+    protected virtual void OnDestroyed() { }
 }
