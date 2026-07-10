@@ -3,11 +3,6 @@ using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using SpaceGame.Enemies;
 using MonoGameLibrary.Graphics;
-using System.Net;
-using System.Data;
-using Microsoft.Xna.Framework.Graphics;
-using System.Net.Http.Headers;
-using System.Collections;
 
 namespace SpaceGame.Managers;
 
