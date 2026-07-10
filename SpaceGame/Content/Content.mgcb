@@ -16,10 +16,7 @@
 #begin images/atlas-definition.xml
 /copy:images/atlas-definition.xml
 
-#begin images/explosion-definition.xml
-/copy:images/explosion-definition.xml
-
-#begin images/Explosion.png
+#begin images/atlas.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -29,17 +26,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:images/Explosion.png
-
-#begin images/texture.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:images/texture.png
+/build:images/atlas.png
 

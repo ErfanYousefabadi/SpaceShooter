@@ -9,7 +9,7 @@ public class SpriteFactory
     private TextureAtlas _atlas;
     private TextureRegion _shipRegion;
     private TextureRegion _bulletRegion;
-    // private Animation _explosionAnimation;
+    private Animation _explosionAnimation;
 
     private Dictionary<EnemyType, TextureRegion> _enemyRegions;
 
@@ -19,7 +19,7 @@ public class SpriteFactory
 
         _shipRegion = _atlas.GetRegion("ship");
         _bulletRegion = _atlas.GetRegion("bullet");
-        // _explosionAnimation = _atlas.GetAnimation("explosion-animation");
+        _explosionAnimation = _atlas.GetAnimation("explosion-animation");
 
         _enemyRegions = new Dictionary<EnemyType, TextureRegion>
         {
@@ -30,6 +30,8 @@ public class SpriteFactory
             { EnemyType.Terrorist, _atlas.GetRegion("ship") },
         };
     }
+
+    public Animation ExplosionAnimation => _explosionAnimation;
 
     public Sprite CreateShipSprite() 
         => CenterOrigin(new Sprite(_shipRegion));
@@ -44,9 +46,9 @@ public class SpriteFactory
         return ans;
     }
 
-    // public AnimatedSprite CreateExplosionSprite() 
-    //     => CenterOrigin(new AnimatedSprite(_explosionAnimation));
-
+    public AnimatedSprite CreateExplosionSprite() 
+        => CenterOrigin(new AnimatedSprite(_explosionAnimation));
+    
     private static Sprite CenterOrigin(Sprite x)
     {
         x.CenterOrigin();

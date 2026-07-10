@@ -16,8 +16,6 @@ public class GamePlayScene : Scene
 {
     private Ship _ship;
     private TextureAtlas _atlas;
-    private TextureAtlas _explosionAtlas;
-    private Animation _explosionAnimation;
     private List<Bullet> _activeBullets = [];
     private List<Enemy> _activeEnemies = [];
     private List<Explosion> _activeExplosions = [];
@@ -29,7 +27,6 @@ public class GamePlayScene : Scene
         base.Initialize();
 
         _spriteFactory = new(_atlas);
-        _explosionAnimation = _explosionAtlas.GetAnimation("explosion-animation");
 
         _ship = new(_spriteFactory.CreateShipSprite(), new(100, 100));
         _waveManager = new(_spriteFactory);
@@ -39,7 +36,6 @@ public class GamePlayScene : Scene
     public override void LoadContent()
     {
         _atlas = TextureAtlas.FromFile(Content, "images/atlas-definition.xml");
-        _explosionAtlas = TextureAtlas.FromFile(Content, "images/explosion-definition.xml");
     }
 
     public override void Update(GameTime gameTime)
@@ -72,15 +68,7 @@ public class GamePlayScene : Scene
             _ship.Shoot(_spriteFactory.CreateBulletSprite(), _activeBullets);
         if (Core.Input.Keyboard.WasKeyJustPressed(Keys.E))
             foreach (TerroristEnemy e in _activeEnemies.Where(e => e is TerroristEnemy))
-                e.Explode(_activeExplosions, _explosionAnimation);
-        // if (Core.Input.Mouse.WasButtonJustPressed(MonoGameLibrary.Input.MouseButton.Left))
-        // {
-        //     ScoutEnemy e = new(_enemySprite, Core.Input.Mouse.Position.ToVector2());
-
-        //     e.ApplyWaveScaling(1);
-
-        //     _activeEnemies.Add(e);
-        // }
+                e.Explode(_activeExplosions, _spriteFactory.ExplosionAnimation);
     }
 
     private bool IsCompletelyOut(Circle x, Rectangle screenBounds)
