@@ -39,12 +39,12 @@ public abstract class Entity
     public virtual void Update(GameTime gameTime)
     {
         if (_sprite is AnimatedSprite a)
-            a.UpdateAnimetion(gameTime);    
+            a.UpdateAnimetion(gameTime);
     }
 
     public virtual Circle GetBounds()
     {
-        Vector2 center = Position - _sprite.Origin + new Vector2(_sprite.Width, _sprite.Height) * 0.5f;
+        Vector2 center = Position - _sprite.Origin * _sprite.Scale + new Vector2(_sprite.Width, _sprite.Height) * 0.5f;
 
         return new Circle(
             (int)center.X,
@@ -61,5 +61,5 @@ public abstract class Entity
         if (HP == 0) IsActive = false;
     }
 
-    protected virtual void OnDestroyed() {}
+    protected virtual void OnDestroyed() { }
 }

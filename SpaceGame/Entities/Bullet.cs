@@ -13,7 +13,7 @@ public class Bullet : Entity
     public BulletOwner Owner { get; set; }
     public int Damage { get; set; }
 
-    public Bullet(Sprite sprite, Vector2 pos, float speed, Vector2 direction, 
+    public Bullet(Sprite sprite, Vector2 pos, float speed, Vector2 direction,
         BulletOwner bulletOwner, int damage) : base(sprite, 1, pos, speed)
     {
         _direction = direction;
@@ -30,7 +30,7 @@ public class Bullet : Entity
 
         base.Update(gameTime);
     }
-    
+
     public bool IsOffScreen(Rectangle roomBounds)
         => !roomBounds.Contains(Position.ToPoint());
 }

@@ -12,7 +12,7 @@ public class StandardEnemy : Enemy
     private const int SCORE_VALUE = 50;
     private const float COIN_DROP = 0.4f;
 
-    public StandardEnemy(Sprite sprite, Vector2 pos) 
+    public StandardEnemy(Sprite sprite, Vector2 pos)
         : base(sprite, pos, BASE_SPEED, BASE_HP, SCORE_VALUE, COIN_DROP, null, CONTACT_DAMAGE)
     {
         CoinDropType = Entities.CoinType.Silver;
@@ -21,7 +21,7 @@ public class StandardEnemy : Enemy
 
     public override void Move(GameTime gameTime)
     {
-        float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;    
+        float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
         var newPos = Position;
         newPos.Y += Speed * deltaTime;

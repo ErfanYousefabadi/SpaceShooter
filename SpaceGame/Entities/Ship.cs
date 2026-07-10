@@ -19,7 +19,7 @@ public class Ship : Entity
     public int Score { get; set; }
     public int Coins { get; set; }
 
-    public Ship(Sprite sprite, Vector2 pos) 
+    public Ship(Sprite sprite, Vector2 pos)
         : base(sprite, _maxhp, pos, _shipSpeed)
     {
         _sprite.Scale = Vector2.One * 64 / _sprite.Region.Width;
@@ -40,7 +40,7 @@ public class Ship : Entity
         if (Core.Input.Keyboard.IsKeyDown(Keys.D))
             delta.X += Speed;
 
-        delta *= deltaTime;        
+        delta *= deltaTime;
 
         Position += delta;
 
@@ -55,7 +55,7 @@ public class Ship : Entity
             newPos.X = 0;
         if (shipBound.Right > roomBounds.Right)
             newPos.X = roomBounds.Right - _sprite.Width;
-        
+
         Position = newPos;
     }
 
@@ -65,15 +65,15 @@ public class Ship : Entity
             return;
         Vector2 pos = new(GetBounds().Location.X, GetBounds().Top);
         Bullet bullet = new(
-            bs, pos, 
-            _bulletSpeed, 
-            -Vector2.UnitY, 
-            BulletOwner.Player, 
+            bs, pos,
+            _bulletSpeed,
+            -Vector2.UnitY,
+            BulletOwner.Player,
             _bulletDamage
         );
         _timeSinceLastShot = TimeSpan.Zero;
         activeBullets.Add(bullet);
-    }    
+    }
 
     public void Update(GameTime gameTime, Rectangle roomBounds)
     {

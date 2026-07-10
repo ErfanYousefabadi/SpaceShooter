@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using MonoGameLibrary;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using SpaceGame.Managers;
 
 namespace SpaceGame.Scenes;
 
@@ -22,6 +23,7 @@ public class GamePlayScene : Scene
     private List<Bullet> _activeBullets = [];
     private List<Enemy> _activeEnemies = [];
     private List<Explosion> _activeExplosions = [];
+    private WaveManager _waveManager;
 
     public override void Initialize()
     {
@@ -38,6 +40,14 @@ public class GamePlayScene : Scene
         _explosionAnimation = _explosionAtlas.GetAnimation("explosion-animation");
 
         _ship = new(shipSprite, new(100, 100));
+        _waveManager = new(
+            new(_atlas.GetRegion("ship")),
+            new(_atlas.GetRegion("ship")),
+            new(_atlas.GetRegion("ship")),
+            new(_atlas.GetRegion("ship")),
+            new(_atlas.GetRegion("ship"))
+        );
+        _waveManager.StartWave(1);
     }
 
     public override void LoadContent()
@@ -63,33 +73,44 @@ public class GamePlayScene : Scene
         foreach (var e in _activeExplosions)
             e.Update(gameTime);
 
+        if (_waveManager.IsWaveComplete && _waveManager.CurrentWave < 10)
+            _waveManager.StartWave(_waveManager.CurrentWave + 1);
+        else
+            _waveManager.Update(gameTime, _activeEnemies);
+
         _activeBullets.RemoveAll(b => IsCompletelyOut(b.GetBounds(), screenBounds) || !b.IsActive);
-        _activeEnemies.RemoveAll(e => IsCompletelyOut(e.GetBounds(), screenBounds) || !e.IsActive);
+        _activeEnemies.RemoveAll(e => IsOutNotFromTop(e.GetBounds(), screenBounds) || !e.IsActive);
         _activeExplosions.RemoveAll(e => e.IsFinished);
-        
+
         if (Core.Input.Keyboard.IsKeyDown(Keys.Space))
             _ship.Shoot(_bulletSprite, _activeBullets);
         if (Core.Input.Keyboard.WasKeyJustPressed(Keys.E))
             foreach (TerroristEnemy e in _activeEnemies.Where(e => e is TerroristEnemy))
                 e.Explode(_activeExplosions, _explosionAnimation);
+        // if (Core.Input.Mouse.WasButtonJustPressed(MonoGameLibrary.Input.MouseButton.Left))
+        // {
+        //     ScoutEnemy e = new(_enemySprite, Core.Input.Mouse.Position.ToVector2());
 
-        if (Core.Input.Mouse.WasButtonJustPressed(MonoGameLibrary.Input.MouseButton.Left))
-        {
-            TerroristEnemy e = new(_enemySprite, Core.Input.Mouse.Position.ToVector2(), _ship.Position);
+        //     e.ApplyWaveScaling(1);
 
-            e.ApplyWaveScaling(10);
-
-            _activeEnemies.Add(e);
-        }
+        //     _activeEnemies.Add(e);
+        // }
     }
 
-    private bool IsCompletelyOut (Circle x, Rectangle screenBounds)
+    private bool IsCompletelyOut(Circle x, Rectangle screenBounds)
     {
         return x.Bottom < screenBounds.Top
             || x.Top > screenBounds.Bottom
             || x.Left > screenBounds.Right
             || x.Right < screenBounds.Left;
 
+    }
+
+    private bool IsOutNotFromTop(Circle x, Rectangle screenBounds)
+    {
+        return x.Top > screenBounds.Bottom
+            || x.Left > screenBounds.Right
+            || x.Right < screenBounds.Left;
     }
 
     public override void Draw(GameTime gameTime)

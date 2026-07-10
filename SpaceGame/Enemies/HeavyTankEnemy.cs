@@ -21,7 +21,7 @@ public class HeavyTankEnemy : Enemy
     private TimeSpan _fireRate = TimeSpan.FromMilliseconds(1000);
     private TimeSpan _timeSinceLastShot = TimeSpan.Zero;
 
-    public HeavyTankEnemy(Sprite sprite, Vector2 pos) 
+    public HeavyTankEnemy(Sprite sprite, Vector2 pos)
         : base(sprite, pos, BASE_SPEED, BASE_HP, SCORE_VALUE, COIN_DROP, null, CONTACT_DAMAGE)
     {
         CoinDropType = CoinType.Gold;
