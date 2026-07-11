@@ -13,6 +13,7 @@ namespace SpaceGame.Managers;
 public class GameManager
 {
     private Ship _ship;
+    private SpriteFont _font;
     private List<Enemy> _activeEnemies = [];
     private List<Bullet> _activeBullets = [];
     private List<Explosion> _activeExplosions = [];
@@ -25,8 +26,9 @@ public class GameManager
     public bool IsGameOver { get; private set; } = false;
     public bool IsVictory { get; private set; } = false;
 
-    public GameManager(Rectangle screenBounds, SpriteFactory spriteFactory)
+    public GameManager(Rectangle screenBounds, SpriteFactory spriteFactory, SpriteFont font)
     {
+        _font = font;
         _rng = new Random();
         _screenBounds = screenBounds;
         _spriteFactory = spriteFactory;
@@ -47,12 +49,6 @@ public class GameManager
 
         if (Core.Input.Keyboard.IsKeyDown(Keys.Space))
             _ship.Shoot(_spriteFactory.CreateBulletSprite(), _activeBullets);
-
-        Console.WriteLine($"HP: {_ship.HP}");
-        Console.WriteLine($"wave: {_waveManager.CurrentWave}");
-        Console.WriteLine($"Coins: {_ship.Coins}");
-        Console.WriteLine($"Score: {_ship.Score}");
-        Console.WriteLine("-------------");
 
         UpdateCollisions();
         UpdateEntityTargets();
@@ -77,6 +73,14 @@ public class GameManager
             e.Draw();
         foreach (var e in _activeExplosions)
             e.Draw();
+
+        Core.SpriteBatch.DrawString(
+            _font, $"Score: {_ship.Score} / Coins: {_ship.Coins} / Wave: {_waveManager.CurrentWave}"
+            , new(5, 5), Color.Black
+        );
+        Core.SpriteBatch.DrawString(
+            _font, $"HP: {_ship.HP}", new(580, _screenBounds.Height - 30), Color.Black
+        );
 
         Core.SpriteBatch.End();
     }
