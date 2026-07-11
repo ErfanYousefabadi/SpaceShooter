@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
 using SpaceGame.Enemies;
 using SpaceGame.Entities;
@@ -30,29 +31,43 @@ public class GameManager
         _screenBounds = screenBounds;
         _spriteFactory = spriteFactory;
         _waveManager = new(_spriteFactory);
+        _waveManager.StartWave(1);
         _ship = new(_spriteFactory.CreateShipSprite(), screenBounds.Center.ToVector2());
         _waveManager.WaveCompleted += OnWaveCompleted;
     }
 
     public void Update(GameTime gameTime)
     {
-        _ship.Update(gameTime, _screenBounds);
+        if (_ship.IsActive)
+            _ship.Update(gameTime, _screenBounds);
         _activeBullets.ForEach(b => b.Update(gameTime));
         _activeCoins.ForEach(c => c.Update(gameTime));
         _activeEnemies.ForEach(e => e.Update(gameTime, _activeBullets, _spriteFactory.CreateBulletSprite()));
         _activeExplosions.ForEach(e => e.Update(gameTime));
 
+        if (Core.Input.Keyboard.IsKeyDown(Keys.Space))
+            _ship.Shoot(_spriteFactory.CreateBulletSprite(), _activeBullets);
+
+        Console.WriteLine($"HP: {_ship.HP}");
+        Console.WriteLine($"wave: {_waveManager.CurrentWave}");
+        Console.WriteLine($"Coins: {_ship.Coins}");
+        Console.WriteLine($"Score: {_ship.Score}");
+        Console.WriteLine("-------------");
+
         UpdateCollisions();
         UpdateEntityTargets();
         CleanUpInactiveEntities();
         CheckPickUps();
+
+        _waveManager.Update(gameTime, _activeEnemies);
     }
 
     public void Draw()
     {
         Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
-        _ship.Draw();
+        if (_ship.IsActive)
+            _ship.Draw();
 
         foreach (var c in _activeCoins)
             c.Draw();
@@ -136,7 +151,7 @@ public class GameManager
 
     private void CleanUpInactiveEntities()
     {
-        if (_ship.IsActive == false) Environment.Exit(0);
+        // if (_ship.IsActive == false) Environment.Exit(0);
         _activeBullets.RemoveAll(b => IsCompletelyOut(b.GetBounds(), _screenBounds) || !b.IsActive);
         _activeExplosions.RemoveAll(e => e.IsFinished);
         _activeCoins.RemoveAll(c => !c.IsActive);
@@ -172,6 +187,8 @@ public class GameManager
     {
         _ship.Score += 100 * waveNumber;
         _ship.Coins += 5 * waveNumber;
+
+        _waveManager.StartWave(_waveManager.CurrentWave + 1);
     }
 
     private static bool IsCompletelyOut(Circle x, Rectangle screenBounds)
