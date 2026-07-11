@@ -10,6 +10,8 @@ public class SpriteFactory
     private TextureRegion _shipRegion;
     private TextureRegion _bulletRegion;
     private Animation _explosionAnimation;
+    private Animation _goldCoinAnimation;
+    private Animation _silverCoinAnimation;
 
     private Dictionary<EnemyType, TextureRegion> _enemyRegions;
 
@@ -20,6 +22,8 @@ public class SpriteFactory
         _shipRegion = _atlas.GetRegion("ship");
         _bulletRegion = _atlas.GetRegion("bullet");
         _explosionAnimation = _atlas.GetAnimation("explosion-animation");
+        _goldCoinAnimation = _atlas.GetAnimation("gold-animation");
+        _silverCoinAnimation = _atlas.GetAnimation("silver-animation");
 
         _enemyRegions = new Dictionary<EnemyType, TextureRegion>
         {
@@ -32,6 +36,8 @@ public class SpriteFactory
     }
 
     public Animation ExplosionAnimation => _explosionAnimation;
+    public Animation GoldAnimation => _goldCoinAnimation;
+    public Animation SilverAnimation => _silverCoinAnimation;
 
     public Sprite CreateShipSprite() 
         => CenterOrigin(new Sprite(_shipRegion));
@@ -48,6 +54,12 @@ public class SpriteFactory
 
     public AnimatedSprite CreateExplosionSprite() 
         => CenterOrigin(new AnimatedSprite(_explosionAnimation));
+    
+    public AnimatedSprite CreateGoldCoinSprite()
+        => CenterOrigin(new AnimatedSprite(_goldCoinAnimation));
+
+    public AnimatedSprite CreateSilverCoinSprite()
+        => CenterOrigin(new AnimatedSprite(_silverCoinAnimation));
     
     private static Sprite CenterOrigin(Sprite x)
     {

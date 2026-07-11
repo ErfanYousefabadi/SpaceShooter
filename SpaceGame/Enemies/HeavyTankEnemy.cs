@@ -18,7 +18,7 @@ public class HeavyTankEnemy : Enemy
     private const int BULLET_SPEED = 220;
     private const int BULLET_DAMAGE = 10;
 
-    private TimeSpan _fireRate = TimeSpan.FromMilliseconds(1000);
+    private TimeSpan _fireRate = TimeSpan.FromMilliseconds(3000);
     private TimeSpan _timeSinceLastShot = TimeSpan.Zero;
 
     public HeavyTankEnemy(Sprite sprite, Vector2 pos)

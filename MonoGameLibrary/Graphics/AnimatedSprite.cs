@@ -53,6 +53,7 @@ public class AnimatedSprite : Sprite
                 _currentFrame = 0;
 
             Region = _animation.Frames[_currentFrame];
+            CenterOrigin();
         }
     }
 }
