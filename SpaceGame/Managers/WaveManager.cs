@@ -196,44 +196,32 @@ public class WaveManager
     private Enemy CreateEnemy(EnemyType type, Sprite enemySprite)
     {
         enemySprite.CenterOrigin();
-        int lane, backupLane; // scout enemeis should not be in left most or right most lane
+        int lane;
         int laneWidth = WIDTH_OF_ALL_LANES / LANES_NUMBER;
 
         do {
-            lane = rng.Next(8);
-            backupLane = rng.Next(1, 7);
-        } while (lane == _previousLane && backupLane != _previousLane);
+            if (type != EnemyType.Scout)
+                lane = rng.Next(8);
+            else 
+                lane = rng.Next(1, 7);
+        } while (lane == _previousLane);
 
-        _previousLane = type == EnemyType.Scout ? backupLane : lane;
+        _previousLane = lane;
 
         Vector2 pos = new((lane + 0.5f) * laneWidth, -enemySprite.Height * 0.5f);
-        Vector2 backupPos = new((backupLane + 0.5f) * laneWidth, -enemySprite.Height * 0.5f);
 
-        switch(type)
+        Enemy ans = type switch
         {
-            case EnemyType.Standard:
-                var en1 = new StandardEnemy(enemySprite, pos);
-                en1.ApplyWaveScaling(CurrentWave);
-                return en1;
-            case EnemyType.Scout:
-                var en2 = new ScoutEnemy(enemySprite, backupPos);
-                en2.ApplyWaveScaling(CurrentWave);
-                return en2;
-            case EnemyType.Shooter:
-                var en3 = new ShooterEnemy(enemySprite, pos);
-                en3.ApplyWaveScaling(CurrentWave);
-                return en3;
-            case EnemyType.HeavyTank:
-                var en4 = new HeavyTankEnemy(enemySprite, pos);
-                en4.ApplyWaveScaling(CurrentWave);
-                return en4;
-            case EnemyType.Terrorist:
-                var en5 = new TerroristEnemy(enemySprite, pos, null);
-                en5.ApplyWaveScaling(CurrentWave);
-                return en5;
-            default:
-                return new StandardEnemy(enemySprite, pos);
+            EnemyType.Standard => new StandardEnemy(enemySprite, pos),
+            EnemyType.Scout => new ScoutEnemy(enemySprite, pos),
+            EnemyType.Shooter => new ShooterEnemy(enemySprite, pos),
+            EnemyType.HeavyTank => new HeavyTankEnemy(enemySprite, pos),
+            EnemyType.Terrorist => new TerroristEnemy(enemySprite, pos, null),
+            _ => new StandardEnemy(enemySprite, pos),
         };
+        ans.ApplyWaveScaling(CurrentWave);
+
+        return ans;
     }
 
     private EnemyType PickWeightedEnemyType(Dictionary<EnemyType, int> weights)
