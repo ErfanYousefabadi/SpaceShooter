@@ -16,6 +16,30 @@
         <Region name="explode-12" x="1056" y="0" width="96" height="96" />
         <Region name="ship" x="0" y="96" width="64" height="64" />
         <Region name="bullet" x="91" y="125" width="10" height="14" />
+        <Region name="gold-1" x="144" y="112" width="16" height="16" />
+        <Region name="gold-2" x="176" y="112" width="14" height="16" />
+        <Region name="gold-3" x="190" y="112" width="10" height="16" />
+        <Region name="gold-4" x="200" y="128" width="6" height="16" />
+        <Region name="gold-5" x="200" y="96" width="8" height="16" />
+        <Region name="gold-6" x="190" y="96" width="10" height="16" />
+        <Region name="gold-7" x="176" y="96" width="14" height="16" />
+        <Region name="gold-8" x="144" y="96" width="16" height="16" />
+        <Region name="gold-9" x="128" y="144" width="16" height="16" />
+        <Region name="gold-10" x="128" y="128" width="16" height="16" />
+        <Region name="gold-11" x="128" y="112" width="16" height="16" />
+        <Region name="gold-12" x="128" y="96" width="16" height="16" />
+        <Region name="silver-1" x="160" y="144" width="16" height="16" />
+        <Region name="silver-2" x="176" y="144" width="14" height="16" />
+        <Region name="silver-3" x="190" y="144" width="10" height="16" />
+        <Region name="silver-4" x="200" y="144" width="6" height="16" />
+        <Region name="silver-5" x="200" y="112" width="8" height="16" />
+        <Region name="silver-6" x="190" y="128" width="10" height="16" />
+        <Region name="silver-7" x="176" y="128" width="14" height="16" />
+        <Region name="silver-8" x="160" y="128" width="16" height="16" />
+        <Region name="silver-9" x="160" y="112" width="16" height="16" />
+        <Region name="silver-10" x="160" y="96" width="16" height="16" />
+        <Region name="silver-11" x="144" y="144" width="16" height="16" />
+        <Region name="silver-12" x="144" y="128" width="16" height="16" />
     </Regions>
     <Animations>
     	<Animation name="explosion-animation" delay="70">
@@ -31,6 +55,34 @@
             <Frame region="explode-10" />
             <Frame region="explode-11" />
             <Frame region="explode-12" />
+        </Animation>
+        <Animation name="gold-animation" delay="70">
+            <Frame region="gold-1" />
+            <Frame region="gold-2" />
+            <Frame region="gold-3" />
+            <Frame region="gold-4" />
+            <Frame region="gold-5" />
+            <Frame region="gold-6" />
+            <Frame region="gold-7" />
+            <Frame region="gold-8" />
+            <Frame region="gold-9" />
+            <Frame region="gold-10" />
+            <Frame region="gold-11" />
+            <Frame region="gold-12" />
+        </Animation>
+        <Animation name="silver-animation" delay="70">
+            <Frame region="silver-1" />
+            <Frame region="silver-2" />
+            <Frame region="silver-3" />
+            <Frame region="silver-4" />
+            <Frame region="silver-5" />
+            <Frame region="silver-6" />
+            <Frame region="silver-7" />
+            <Frame region="silver-8" />
+            <Frame region="silver-9" />
+            <Frame region="silver-10" />
+            <Frame region="silver-11" />
+            <Frame region="silver-12" />
         </Animation>
     </Animations>
 </TextureAtlas>

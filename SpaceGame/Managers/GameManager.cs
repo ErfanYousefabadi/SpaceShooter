@@ -169,6 +169,13 @@ public class GameManager
     private void SpawnCoin(Vector2 position, CoinType type)
     {
         // TODO: needs coin sprite to be added
+        Coin c;
+        if (type == CoinType.Silver)
+            c = new(_spriteFactory.CreateSilverCoinSprite(), position, CoinType.Silver, null);
+        else
+            c = new(_spriteFactory.CreateGoldCoinSprite(), position, CoinType.Gold, null);
+
+        _activeCoins.Add(c);
     }
 
     private void CheckPickUps() // coins and perhaps powerups in future
@@ -188,7 +195,8 @@ public class GameManager
         _ship.Score += 100 * waveNumber;
         _ship.Coins += 5 * waveNumber;
 
-        _waveManager.StartWave(_waveManager.CurrentWave + 1);
+        if (_waveManager.CurrentWave < 10)
+            _waveManager.StartWave(_waveManager.CurrentWave + 1);
     }
 
     private static bool IsCompletelyOut(Circle x, Rectangle screenBounds)
