@@ -132,7 +132,6 @@ public class GameManager
                 {
                     e.TakeDamage(b.Damage);
                     b.IsActive = false;
-                    _ship.Score += e.ScoreValue;
                 }
             }
         }
@@ -164,6 +163,7 @@ public class GameManager
     {
         if (_rng.NextDouble() < enemy.CoinDropChance)
             SpawnCoin(enemy.Position, enemy.CoinDropType);
+        _ship.Score += enemy.ScoreValue;
     }
 
     private void SpawnCoin(Vector2 position, CoinType type)
