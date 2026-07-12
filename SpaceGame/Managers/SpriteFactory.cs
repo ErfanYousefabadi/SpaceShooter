@@ -56,11 +56,11 @@ public class SpriteFactory
         => CenterOrigin(new AnimatedSprite(_explosionAnimation));
     
     public AnimatedSprite CreateGoldCoinSprite()
-        => CenterOrigin(new AnimatedSprite(_goldCoinAnimation));
+        => CenterOrigin(new AnimatedSprite(_goldCoinAnimation) {Scale = new(1.5f, 1.5f)});
 
     public AnimatedSprite CreateSilverCoinSprite()
-        => CenterOrigin(new AnimatedSprite(_silverCoinAnimation));
-    
+        => CenterOrigin(new AnimatedSprite(_silverCoinAnimation) {Scale = new(1.5f, 1.5f)});
+
     private static Sprite CenterOrigin(Sprite x)
     {
         x.CenterOrigin();
