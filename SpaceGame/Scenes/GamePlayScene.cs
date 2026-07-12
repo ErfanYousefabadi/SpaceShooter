@@ -36,6 +36,14 @@ public class GamePlayScene : Scene
     public override void Update(GameTime gameTime)
     {
         _gameManager.Update(gameTime);
+        if (_gameManager.IsGameOver)
+            Core.ChangeScene(
+                new GameOverScene(
+                    _gameManager.Score, 
+                    _gameManager.IsVictory, 
+                    _gameManager.EndingScreenshot
+                )
+            );
     }
 
     public override void Draw(GameTime gameTime)
