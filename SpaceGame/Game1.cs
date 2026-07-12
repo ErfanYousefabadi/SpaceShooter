@@ -15,7 +15,7 @@ public class Game1 : Core
     {
         base.Initialize();
 
-        ChangeScene(new GamePlayScene());
+        ChangeScene(new MainMenuScene());
     }
 
     protected override void LoadContent()

@@ -18,6 +18,8 @@ public class GamePlayScene : Scene
     {
         base.Initialize();
 
+        Core.ExitOnEscape = false;
+
         _spriteFactory = new(_atlas);
 
         _gameManager = new(
