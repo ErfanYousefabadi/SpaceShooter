@@ -22,9 +22,13 @@ public class GameManager
     private WaveManager _waveManager;
     private Rectangle _screenBounds;
     private Random _rng;
+    private Texture2D _endingScreenshot = null;
 
     public bool IsGameOver { get; private set; } = false;
     public bool IsVictory { get; private set; } = false;
+    public int Score => _ship.Score;
+    public int Coins => _ship.Coins;
+    public Texture2D EndingScreenshot => _endingScreenshot;
 
     public GameManager(Rectangle screenBounds, SpriteFactory spriteFactory, SpriteFont font)
     {
@@ -56,6 +60,20 @@ public class GameManager
         CheckPickUps();
 
         _waveManager.Update(gameTime, _activeEnemies);
+        if (_ship.HP == 0)
+        {
+            IsGameOver = true;
+            IsVictory = false;
+        }
+        if (_waveManager.CurrentWave == 10 && _waveManager.IsWaveComplete == true && _ship.HP > 0)
+        {
+            IsGameOver = true;
+            IsVictory = true;
+        }
+        if (IsGameOver && _endingScreenshot == null)
+        {
+            _endingScreenshot = CaptureFinalFrame(Core.GraphicsDevice);
+        }
     }
 
     public void Draw()
@@ -172,7 +190,6 @@ public class GameManager
 
     private void SpawnCoin(Vector2 position, CoinType type)
     {
-        // TODO: needs coin sprite to be added
         Coin c;
         if (type == CoinType.Silver)
             c = new(_spriteFactory.CreateSilverCoinSprite(), position, CoinType.Silver, null);
@@ -201,6 +218,24 @@ public class GameManager
 
         if (_waveManager.CurrentWave < 10)
             _waveManager.StartWave(_waveManager.CurrentWave + 1);
+    }
+
+    private Texture2D CaptureFinalFrame(GraphicsDevice graphicsDevice)
+    {
+        int[] backBuffer = new int[_screenBounds.Width * _screenBounds.Height];
+        graphicsDevice.GetBackBufferData(backBuffer);
+
+        //copy into a texture 
+        Texture2D texture = new Texture2D(
+            graphicsDevice, 
+            _screenBounds.Width, 
+            _screenBounds.Height, 
+            false, 
+            graphicsDevice.PresentationParameters.BackBufferFormat
+        );
+        texture.SetData(backBuffer);
+
+        return texture;
     }
 
     private static bool IsCompletelyOut(Circle x, Rectangle screenBounds)
