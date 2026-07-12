@@ -96,8 +96,10 @@ public class GameManager
             _font, $"Score: {_ship.Score} / Coins: {_ship.Coins} / Wave: {_waveManager.CurrentWave}"
             , new(5, 5), Color.Black
         );
+        string shp = $"HP: {_ship.HP}";
+        var s = _font.MeasureString(shp);
         Core.SpriteBatch.DrawString(
-            _font, $"HP: {_ship.HP}", new(580, _screenBounds.Height - 30), Color.Black
+            _font, shp, new((_screenBounds.Width - s.X) * 0.5f, _screenBounds.Height - s.Y), Color.Black
         );
 
         Core.SpriteBatch.End();

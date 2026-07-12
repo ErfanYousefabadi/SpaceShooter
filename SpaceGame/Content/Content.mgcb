@@ -13,12 +13,19 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin fonts/04B_30_5x.spritefont
+#begin fonts/04B_30_25.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
-/build:fonts/04B_30_5x.spritefont
+/build:fonts/04B_30_25.spritefont
+
+#begin fonts/04B_30_87.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/04B_30_87.spritefont
 
 #begin fonts/04B_30.spritefont
 /importer:FontDescriptionImporter
