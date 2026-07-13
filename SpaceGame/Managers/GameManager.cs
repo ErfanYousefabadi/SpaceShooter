@@ -26,7 +26,7 @@ public class GameManager
     private Rectangle _screenBounds;
     private Random _rng;
     private Texture2D _endingScreenshot = null;
-    private Texture2D _pixel;
+    private Texture2D _pixel, _background;
 
     private GameState _state = GameState.Playing;
 
@@ -36,7 +36,8 @@ public class GameManager
     public int Coins => _ship.Coins;
     public Texture2D EndingScreenshot => _endingScreenshot;
 
-    public GameManager(Rectangle screenBounds, SpriteFactory spriteFactory, SpriteFont font, SpriteFont fontBig)
+    public GameManager(Rectangle screenBounds, SpriteFactory spriteFactory, 
+        Texture2D background, SpriteFont font, SpriteFont fontBig)
     {
         _font = font;
         _fontBig = fontBig;
@@ -44,11 +45,12 @@ public class GameManager
         _screenBounds = screenBounds;
         _spriteFactory = spriteFactory;
         _waveManager = new(_spriteFactory);
-        _waveManager.StartWave(1);
+        _waveManager.StartWave(7);
         _ship = new(_spriteFactory.CreateShipSprite(), screenBounds.Center.ToVector2());
         _waveManager.WaveCompleted += OnWaveCompleted;
         _pixel = new Texture2D(Core.GraphicsDevice, 1, 1);
         _pixel.SetData([Color.White]);
+        _background = background;
     }
 
     public void Update(GameTime gameTime)
@@ -97,6 +99,12 @@ public class GameManager
 
     public void Draw()
     {
+        Core.SpriteBatch.Begin(samplerState: SamplerState.PointWrap);
+        
+        Core.SpriteBatch.Draw(_background, _screenBounds, _screenBounds, Color.White);
+        
+        Core.SpriteBatch.End();
+
         Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
         if (_ship.IsActive)

@@ -10,6 +10,7 @@ namespace SpaceGame.Scenes;
 public class GamePlayScene : Scene
 {
     private SpriteFont _font, _fontBig;
+    private Texture2D _background;
     private TextureAtlas _atlas;
     private GameManager _gameManager;
     private SpriteFactory _spriteFactory;
@@ -25,6 +26,7 @@ public class GamePlayScene : Scene
         _gameManager = new(
             Core.GraphicsDevice.PresentationParameters.Bounds,
             _spriteFactory,
+            _background,
             _font, _fontBig
         );
     }
@@ -34,6 +36,7 @@ public class GamePlayScene : Scene
         _atlas = TextureAtlas.FromFile(Content, "images/atlas-definition.xml");
         _font = Content.Load<SpriteFont>("fonts/04B_30");
         _fontBig = Content.Load<SpriteFont>("fonts/04B_30_87");
+        _background = Content.Load<Texture2D>("images/background");
     }
 
     public override void Update(GameTime gameTime)
