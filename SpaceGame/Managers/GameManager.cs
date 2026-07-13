@@ -7,13 +7,16 @@ using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
 using SpaceGame.Enemies;
 using SpaceGame.Entities;
+using SpaceGame.Scenes;
 
 namespace SpaceGame.Managers;
 
 public class GameManager
 {
+    private enum GameState { Playing, Paused }
+
     private Ship _ship;
-    private SpriteFont _font;
+    private SpriteFont _font, _fontBig;
     private List<Enemy> _activeEnemies = [];
     private List<Bullet> _activeBullets = [];
     private List<Explosion> _activeExplosions = [];
@@ -23,6 +26,9 @@ public class GameManager
     private Rectangle _screenBounds;
     private Random _rng;
     private Texture2D _endingScreenshot = null;
+    private Texture2D _pixel;
+
+    private GameState _state = GameState.Playing;
 
     public bool IsGameOver { get; private set; } = false;
     public bool IsVictory { get; private set; } = false;
@@ -30,9 +36,10 @@ public class GameManager
     public int Coins => _ship.Coins;
     public Texture2D EndingScreenshot => _endingScreenshot;
 
-    public GameManager(Rectangle screenBounds, SpriteFactory spriteFactory, SpriteFont font)
+    public GameManager(Rectangle screenBounds, SpriteFactory spriteFactory, SpriteFont font, SpriteFont fontBig)
     {
         _font = font;
+        _fontBig = fontBig;
         _rng = new Random();
         _screenBounds = screenBounds;
         _spriteFactory = spriteFactory;
@@ -40,10 +47,22 @@ public class GameManager
         _waveManager.StartWave(1);
         _ship = new(_spriteFactory.CreateShipSprite(), screenBounds.Center.ToVector2());
         _waveManager.WaveCompleted += OnWaveCompleted;
+        _pixel = new Texture2D(Core.GraphicsDevice, 1, 1);
+        _pixel.SetData([Color.White]);
     }
 
     public void Update(GameTime gameTime)
     {
+        if (Core.Input.Keyboard.WasKeyJustPressed(Keys.Q) && _state == GameState.Paused)
+        {
+            Core.ChangeScene(new MainMenuScene());
+        }
+        if (Core.Input.Keyboard.WasKeyJustPressed(Keys.Escape) && !IsGameOver)
+            _state = _state == GameState.Playing ? GameState.Paused : GameState.Playing;
+
+        if (_state == GameState.Paused)
+            return;
+
         if (_ship.IsActive)
             _ship.Update(gameTime, _screenBounds);
         _activeBullets.ForEach(b => b.Update(gameTime));
@@ -93,7 +112,7 @@ public class GameManager
             e.Draw();
 
         Core.SpriteBatch.DrawString(
-            _font, $"Score: {_ship.Score} / Coins: {_ship.Coins} / Wave: {_waveManager.CurrentWave}"
+            _font, $"Score: {_ship.Score}   Coins: {_ship.Coins}   Wave: {_waveManager.CurrentWave}"
             , new(5, 5), Color.Black
         );
         string shp = $"HP: {_ship.HP}";
@@ -101,6 +120,33 @@ public class GameManager
         Core.SpriteBatch.DrawString(
             _font, shp, new((_screenBounds.Width - s.X) * 0.5f, _screenBounds.Height - s.Y), Color.Black
         );
+
+        if (_state == GameState.Paused)
+        {
+            Color shadow = Color.Black * 0.5f;
+            Core.SpriteBatch.Draw(_pixel, _screenBounds, Color.Black * 0.6f);
+            string title = "PAUSED";
+            Vector2 titleSize = _fontBig.MeasureString(title);
+            Vector2 titlePos = new((_screenBounds.Width - titleSize.X) * 0.5f, 100);
+            Core.SpriteBatch.DrawString( _fontBig, title, titlePos + Vector2.One * 10, shadow);
+            Core.SpriteBatch.DrawString( _fontBig, title, titlePos, Color.White);
+
+            string escape = "Press ESC to continue";
+            string q = "Press Q to Quit";
+
+            Vector2 escapeSize = _font.MeasureString(escape);
+            Vector2 qSize = _font.MeasureString(q);
+            Vector2 escapePos = new(5, _screenBounds.Height - 5);
+            Vector2 escapeOrigin = new(0, escapeSize.Y);
+            Vector2 qOrigin = qSize;
+            Vector2 qPos = new(_screenBounds.Width - 5, _screenBounds.Height - 5);
+
+            Core.SpriteBatch.DrawString(_font, escape, escapePos + new Vector2(3, 3), shadow, 0, escapeOrigin, 1, SpriteEffects.None, 0);
+            Core.SpriteBatch.DrawString(_font, escape, escapePos, Color.LightGray, 0, escapeOrigin, 1, SpriteEffects.None, 0);
+
+            Core.SpriteBatch.DrawString(_font, q, qPos + new Vector2(3, 3), shadow, 0, qOrigin, 1, SpriteEffects.None, 0);
+            Core.SpriteBatch.DrawString(_font, q, qPos, Color.LightGray, 0, qOrigin, 1, SpriteEffects.None, 0);
+        }
 
         Core.SpriteBatch.End();
     }
