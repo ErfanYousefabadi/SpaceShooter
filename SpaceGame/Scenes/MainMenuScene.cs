@@ -61,13 +61,15 @@ public class MainMenuScene : Scene
     {
         if (Core.Input.Keyboard.WasKeyJustPressed(Keys.Enter))
             Core.ChangeScene(new GamePlayScene());
+        else if (Core.Input.Keyboard.WasKeyJustPressed(Keys.A))
+            Core.ChangeScene(new AboutScene());
     }
 
     public override void Draw(GameTime gameTime)
     {
-        Core.GraphicsDevice.Clear(new Color(32, 40, 78, 255));
+        Core.GraphicsDevice.Clear(new Color(10, 10, 20));
 
-        Color shadow = Color.Black * 0.5f;
+        Color shadow = Color.DarkGray * 0.5f;
 
         Core.SpriteBatch.Begin(samplerState: SamplerState.PointClamp);
 

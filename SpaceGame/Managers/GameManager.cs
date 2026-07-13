@@ -45,7 +45,7 @@ public class GameManager
         _screenBounds = screenBounds;
         _spriteFactory = spriteFactory;
         _waveManager = new(_spriteFactory);
-        _waveManager.StartWave(7);
+        _waveManager.StartWave(1);
         _ship = new(_spriteFactory.CreateShipSprite(), screenBounds.Center.ToVector2());
         _waveManager.WaveCompleted += OnWaveCompleted;
         _pixel = new Texture2D(Core.GraphicsDevice, 1, 1);
