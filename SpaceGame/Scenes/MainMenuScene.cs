@@ -14,10 +14,12 @@ public class MainMenuScene : Scene
     private const string SPACE_TEXT = "Space";
     private const string SHOOTER_TEXT = "Shooter";
     private const string PRESS_ENTER_TEXT = "Press Enter to Start";
+    private const string ABOUT_TEXT = "A: About";
 
     private Vector2 _spacePos, _spaceOrigin;
     private Vector2 _shooterPos, _shooterOrigin;
     private Vector2 _enterPos, _enterOrigin;
+    private Vector2 _aboutPos;
 
     public override void Initialize()
     {
@@ -38,6 +40,9 @@ public class MainMenuScene : Scene
         size = _font.MeasureString(PRESS_ENTER_TEXT);
         _enterPos = new(640, 620);
         _enterOrigin = size * 0.5f;
+
+        size = _font.MeasureString(ABOUT_TEXT);
+        _aboutPos = new(5, _screenBounds.Height - size.Y - 5);
     }
 
     public override void LoadContent()
@@ -100,6 +105,8 @@ public class MainMenuScene : Scene
             Color.White, 0, _enterOrigin
             , 1, SpriteEffects.None, 0
         );
+
+        Core.SpriteBatch.DrawString( _font, ABOUT_TEXT, _aboutPos, Color.White);
 
         Core.SpriteBatch.End();
     }

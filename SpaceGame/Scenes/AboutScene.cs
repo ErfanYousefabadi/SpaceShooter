@@ -54,7 +54,6 @@ public class AboutScene : Scene
 
         Core.SpriteBatch.Draw(_pixel, _screenBounds, new Color(10, 10, 20));
 
-        // Panel background so the text block reads as a distinct card, not floating text
         var panel = new Rectangle(_screenBounds.Width / 2 - 320, 160, 640, 380);
         Core.SpriteBatch.Draw(_pixel, panel, Color.Black * 0.5f);
         DrawBorder(panel, Color.White * 0.4f, 2);
