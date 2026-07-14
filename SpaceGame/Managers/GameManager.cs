@@ -139,12 +139,12 @@ public class GameManager
 
         Core.SpriteBatch.DrawString(
             _font, $"Score: {_ship.Score}   Coins: {_ship.Coins}   Wave: {_waveManager.CurrentWave}"
-            , new(5, 5), Color.Black
+            , new(5, 5), Color.LightCyan
         );
         string shp = $"HP: {_ship.HP}";
         var s = _font.MeasureString(shp);
         Core.SpriteBatch.DrawString(
-            _font, shp, new((_screenBounds.Width - s.X) * 0.5f, _screenBounds.Height - s.Y), Color.Black
+            _font, shp, new((_screenBounds.Width - s.X) * 0.5f, _screenBounds.Height - s.Y), Color.White
         );
 
         if (_state == GameState.Paused)
