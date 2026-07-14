@@ -32,13 +32,17 @@ public class Ship : Entity
     private void Move(float deltaTime, Rectangle roomBounds)
     {
         Vector2 delta = Vector2.Zero;
-        if (Core.Input.Keyboard.IsKeyDown(Keys.W))
+        if (Core.Input.Keyboard.IsKeyDown(Keys.W)
+            || Core.Input.Keyboard.IsKeyDown(Keys.Up))
             delta.Y -= Speed;
-        if (Core.Input.Keyboard.IsKeyDown(Keys.S))
+        if (Core.Input.Keyboard.IsKeyDown(Keys.S)
+            || Core.Input.Keyboard.IsKeyDown(Keys.Down))
             delta.Y += Speed;
-        if (Core.Input.Keyboard.IsKeyDown(Keys.A))
+        if (Core.Input.Keyboard.IsKeyDown(Keys.A)
+            || Core.Input.Keyboard.IsKeyDown(Keys.Left))
             delta.X -= Speed;
-        if (Core.Input.Keyboard.IsKeyDown(Keys.D))
+        if (Core.Input.Keyboard.IsKeyDown(Keys.D)
+            || Core.Input.Keyboard.IsKeyDown(Keys.Right))
             delta.X += Speed;
 
         delta *= deltaTime;
