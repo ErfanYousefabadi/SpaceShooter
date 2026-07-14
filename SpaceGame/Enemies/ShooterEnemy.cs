@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using SpaceGame.Entities;
@@ -38,22 +39,25 @@ public class ShooterEnemy : Enemy
         Position = newPos;
     }
 
-    public override void Update(GameTime gameTime, List<Bullet> activeBullets, Sprite bulletSprite)
+    public void Update(GameTime gameTime, List<Bullet> activeBullets, TextureRegion bulletRegion, SoundEffect shoot)
     {
-        base.Update(gameTime, activeBullets, bulletSprite);
+        base.Update(gameTime, activeBullets, bulletRegion);
 
         _timeSinceLastShot += gameTime.ElapsedGameTime;
         if (_timeSinceLastShot >= _fireRate)
         {
             _timeSinceLastShot -= _fireRate;
-            Shoot(activeBullets, bulletSprite);
+            Shoot(activeBullets, bulletRegion);
+            Core.Audio.PlaySoundEffect(shoot, 0.1f, 0, 0, false);
         }
     }
 
-    public override void Shoot(List<Bullet> activeBullets, Sprite bulletSprite)
+    public override void Shoot(List<Bullet> activeBullets, TextureRegion bulletRegion)
     {
         Circle bounds = GetBounds();
         Vector2 pos = new(bounds.Location.X, bounds.Bottom);
+        Sprite bulletSprite = new(bulletRegion);
+        bulletSprite.CenterOrigin();
         Bullet b = new(bulletSprite, pos, BULLET_SPEED, Vector2.UnitY, BulletOwner.Enemy, BULLET_DAMAGE);
         activeBullets.Add(b);
     }

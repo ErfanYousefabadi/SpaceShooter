@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
@@ -31,13 +32,17 @@ public class Ship : Entity
     private void Move(float deltaTime, Rectangle roomBounds)
     {
         Vector2 delta = Vector2.Zero;
-        if (Core.Input.Keyboard.IsKeyDown(Keys.W))
+        if (Core.Input.Keyboard.IsKeyDown(Keys.W)
+            || Core.Input.Keyboard.IsKeyDown(Keys.Up))
             delta.Y -= Speed;
-        if (Core.Input.Keyboard.IsKeyDown(Keys.S))
+        if (Core.Input.Keyboard.IsKeyDown(Keys.S)
+            || Core.Input.Keyboard.IsKeyDown(Keys.Down))
             delta.Y += Speed;
-        if (Core.Input.Keyboard.IsKeyDown(Keys.A))
+        if (Core.Input.Keyboard.IsKeyDown(Keys.A)
+            || Core.Input.Keyboard.IsKeyDown(Keys.Left))
             delta.X -= Speed;
-        if (Core.Input.Keyboard.IsKeyDown(Keys.D))
+        if (Core.Input.Keyboard.IsKeyDown(Keys.D)
+            || Core.Input.Keyboard.IsKeyDown(Keys.Right))
             delta.X += Speed;
 
         delta *= deltaTime;
@@ -59,7 +64,7 @@ public class Ship : Entity
         Position = newPos;
     }
 
-    public void Shoot(Sprite bs, List<Bullet> activeBullets)
+    public void Shoot(Sprite bs, List<Bullet> activeBullets, SoundEffect se)
     {
         if (_timeSinceLastShot < _fireRate)
             return;
@@ -73,6 +78,7 @@ public class Ship : Entity
         );
         _timeSinceLastShot = TimeSpan.Zero;
         activeBullets.Add(bullet);
+        Core.Audio.PlaySoundEffect(se, 0.1f, 1, 0, false);
     }
 
     public void Update(GameTime gameTime, Rectangle roomBounds)

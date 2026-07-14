@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
@@ -17,6 +18,8 @@ public class GameOverScene : Scene
 
     private Rectangle _screenBounds;
 
+    private SoundEffect _gameOver, _victory;
+
     public GameOverScene(int score, bool isVictory, Texture2D background)
     {
         _finalScore = score;
@@ -31,6 +34,11 @@ public class GameOverScene : Scene
         Core.ExitOnEscape = false;
 
         _screenBounds = Core.GraphicsDevice.PresentationParameters.Bounds;
+
+        if (!_isVictory)
+            Core.Audio.PlaySoundEffect(_gameOver);
+        else
+            Core.Audio.PlaySoundEffect(_victory);
     }
 
     public override void LoadContent()
@@ -41,6 +49,8 @@ public class GameOverScene : Scene
         _fontSmall = Content.Load<SpriteFont>("fonts/04B_30");
         _font = Content.Load<SpriteFont>("fonts/04B_30_25");
         _fontBig = Content.Load<SpriteFont>("fonts/04B_30_87");
+        _gameOver = Content.Load<SoundEffect>("audios/game-over");
+        _victory = Content.Load<SoundEffect>("audios/victory");
     }
 
     public override void Update(GameTime gameTime)
