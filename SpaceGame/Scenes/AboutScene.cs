@@ -61,7 +61,7 @@ public class AboutScene : Scene
         int lineY = panel.Y + 40;
         const int lineSpacing = 50;
 
-        DrawCentered(_fontBig, "ABOUT", lineY, Color.Gold);
+        DrawCentered(_fontBig, "ABOUT", lineY, Color.DarkSeaGreen);
         lineY += lineSpacing + 100;
 
         DrawCentered(_font, $"Name: {STUDENT_NAME}", lineY, Color.White);

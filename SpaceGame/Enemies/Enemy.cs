@@ -30,13 +30,13 @@ public abstract class Enemy : Entity
 
     public abstract void Move(GameTime gameTime);
 
-    public virtual void Update(GameTime gameTime, List<Bullet> activeBullets, Sprite bulletSprite)
+    public virtual void Update(GameTime gameTime, List<Bullet> activeBullets, TextureRegion bulletRegion)
     {
         base.Update(gameTime);
         Move(gameTime);
     }
 
-    public virtual void Shoot(List<Bullet> bullets, Sprite bulletSprite) { }
+    public virtual void Shoot(List<Bullet> bullets, TextureRegion bulletRegion) { }
 
     public virtual void ApplyWaveScaling(int wave)
     {

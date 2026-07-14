@@ -69,11 +69,18 @@ public class GameManager
             _ship.Update(gameTime, _screenBounds);
         _activeBullets.ForEach(b => b.Update(gameTime));
         _activeCoins.ForEach(c => c.Update(gameTime));
-        _activeEnemies.ForEach(e => e.Update(gameTime, _activeBullets, _spriteFactory.CreateBulletSprite()));
         _activeExplosions.ForEach(e => e.Update(gameTime));
 
+        var heavyTanks = _activeEnemies.Where(e => e is HeavyTankEnemy).ToList();
+        var shooters = _activeEnemies.Where(e => e is ShooterEnemy).ToList();
+        var others = _activeEnemies.Where(e => (e is not HeavyTankEnemy) && (e is not ShooterEnemy)).ToList();
+
+        heavyTanks.ForEach(e => e.Update(gameTime, _activeBullets, _spriteFactory.HeavyBlueBulletRegion));
+        shooters.ForEach(e => e.Update(gameTime, _activeBullets, _spriteFactory.LightBlueBulletRegion));
+        others.ForEach(e => e.Update(gameTime, _activeBullets, null));
+
         if (Core.Input.Keyboard.IsKeyDown(Keys.Space))
-            _ship.Shoot(_spriteFactory.CreateBulletSprite(), _activeBullets);
+            _ship.Shoot(_spriteFactory.CreateRedBulletSprite(), _activeBullets);
 
         UpdateCollisions();
         UpdateEntityTargets();

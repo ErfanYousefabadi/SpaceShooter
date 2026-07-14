@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
-using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using SpaceGame.Entities;
 
@@ -46,7 +44,8 @@ public class TerroristEnemy : Enemy
     {
         AnimatedSprite explosionSprite = new(explosionAnimation);
         explosionSprite.CenterOrigin();
-        explosionSprite.Scale = _sprite.Scale;
+        // explosionSprite.Scale = _sprite.Scale;
+        explosionSprite.Scale = Vector2.One * SPRITE_SIZE / explosionAnimation.Frames[0].Width * 2;
         Explosion e = new(explosionSprite, GetBounds().Location.ToVector2());
         activeExplosions.Add(e);
         IsActive = false;

@@ -28,24 +28,28 @@ public class HeavyTankEnemy : Enemy
         _sprite.Scale = Vector2.One * SPRITE_SIZE / _sprite.Region.Width;
     }
 
-    public override void Update(GameTime gameTime, List<Bullet> activeBullets, Sprite bulletSprite)
+    public override void Update(GameTime gameTime, List<Bullet> activeBullets, TextureRegion bulletRegion)
     {
-        base.Update(gameTime, activeBullets, bulletSprite);
+        base.Update(gameTime, activeBullets, bulletRegion);
 
         _timeSinceLastShot += gameTime.ElapsedGameTime;
         if (_timeSinceLastShot >= _fireRate)
         {
             _timeSinceLastShot -= _fireRate;
-            Shoot(activeBullets, bulletSprite);
+            Shoot(activeBullets, bulletRegion);
         }
     }
 
-    public override void Shoot(List<Bullet> bullets, Sprite bulletSprite)
+    public override void Shoot(List<Bullet> bullets, TextureRegion bulletRegion)
     {
         Circle bounds = GetBounds();
         for (int i = 0; i < 8; i++)
         {
             float angle = MathHelper.PiOver4 * i;
+            Sprite bulletSprite = new(bulletRegion);
+            bulletSprite.CenterOrigin();
+            bulletSprite.Scale = new(0.5f, 0.5f);
+            bulletSprite.Rotation = angle + MathHelper.PiOver2;
             Vector2 direction = new((float)Math.Cos(angle), (float)Math.Sin(angle));
             Vector2 position = bounds.Location.ToVector2() + (direction * bounds.Radius);
             Bullet b = new(bulletSprite, position, BULLET_SPEED, direction, BulletOwner.Enemy, BULLET_DAMAGE);
