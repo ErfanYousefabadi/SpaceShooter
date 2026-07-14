@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using MonoGameLibrary;
 using MonoGameLibrary.Graphics;
 using SpaceGame.Entities;
@@ -28,7 +29,7 @@ public class HeavyTankEnemy : Enemy
         _sprite.Scale = Vector2.One * SPRITE_SIZE / _sprite.Region.Width;
     }
 
-    public override void Update(GameTime gameTime, List<Bullet> activeBullets, TextureRegion bulletRegion)
+    public void Update(GameTime gameTime, List<Bullet> activeBullets, TextureRegion bulletRegion, SoundEffect shoot)
     {
         base.Update(gameTime, activeBullets, bulletRegion);
 
@@ -37,6 +38,7 @@ public class HeavyTankEnemy : Enemy
         {
             _timeSinceLastShot -= _fireRate;
             Shoot(activeBullets, bulletRegion);
+            Core.Audio.PlaySoundEffect(shoot);
         }
     }
 

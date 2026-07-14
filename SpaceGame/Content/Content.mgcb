@@ -13,6 +13,60 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin audios/coin-collect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audios/coin-collect.wav
+
+#begin audios/enemy-collide.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audios/enemy-collide.wav
+
+#begin audios/explode.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audios/explode.mp3
+
+#begin audios/game-over.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audios/game-over.mp3
+
+#begin audios/metal-hit.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audios/metal-hit.mp3
+
+#begin audios/shoot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audios/shoot.wav
+
+#begin audios/shooter.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audios/shooter.wav
+
+#begin audios/tank-shoot.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audios/tank-shoot.wav
+
+#begin audios/victory.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:audios/victory.mp3
+
 #begin fonts/04B_30_25.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor

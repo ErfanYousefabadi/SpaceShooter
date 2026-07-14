@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using MonoGameLibrary;
@@ -27,6 +28,8 @@ public class GameManager
     private Random _rng;
     private Texture2D _endingScreenshot = null;
     private Texture2D _pixel, _background;
+    private SoundEffect _collect, _explode, _shoot;
+    private SoundEffect _shooter, _heavy, _collide, _enemyBulletHit;
 
     private GameState _state = GameState.Playing;
 
@@ -37,17 +40,31 @@ public class GameManager
     public Texture2D EndingScreenshot => _endingScreenshot;
 
     public GameManager(Rectangle screenBounds, SpriteFactory spriteFactory, 
-        Texture2D background, SpriteFont font, SpriteFont fontBig)
+        Texture2D background, SpriteFont font, SpriteFont fontBig, 
+        SoundEffect collect, SoundEffect explode, SoundEffect shoot,
+        SoundEffect shooter, SoundEffect heavy, SoundEffect collide, 
+        SoundEffect bullethit)
     {
         _font = font;
+        _shoot = shoot;
+        _shooter = shooter;
+        _heavy = heavy;
+        _collide = collide;
+        _explode = explode;
+        _collect = collect;
         _fontBig = fontBig;
+        _enemyBulletHit = bullethit;
+
         _rng = new Random();
         _screenBounds = screenBounds;
         _spriteFactory = spriteFactory;
+
         _waveManager = new(_spriteFactory);
         _waveManager.StartWave(1);
-        _ship = new(_spriteFactory.CreateShipSprite(), screenBounds.Center.ToVector2());
         _waveManager.WaveCompleted += OnWaveCompleted;
+
+        _ship = new(_spriteFactory.CreateShipSprite(), screenBounds.Center.ToVector2());
+
         _pixel = new Texture2D(Core.GraphicsDevice, 1, 1);
         _pixel.SetData([Color.White]);
         _background = background;
@@ -71,16 +88,10 @@ public class GameManager
         _activeCoins.ForEach(c => c.Update(gameTime));
         _activeExplosions.ForEach(e => e.Update(gameTime));
 
-        var heavyTanks = _activeEnemies.Where(e => e is HeavyTankEnemy).ToList();
-        var shooters = _activeEnemies.Where(e => e is ShooterEnemy).ToList();
-        var others = _activeEnemies.Where(e => (e is not HeavyTankEnemy) && (e is not ShooterEnemy)).ToList();
-
-        heavyTanks.ForEach(e => e.Update(gameTime, _activeBullets, _spriteFactory.HeavyBlueBulletRegion));
-        shooters.ForEach(e => e.Update(gameTime, _activeBullets, _spriteFactory.LightBlueBulletRegion));
-        others.ForEach(e => e.Update(gameTime, _activeBullets, null));
+        UpdateEnemies(gameTime);
 
         if (Core.Input.Keyboard.IsKeyDown(Keys.Space))
-            _ship.Shoot(_spriteFactory.CreateRedBulletSprite(), _activeBullets);
+            _ship.Shoot(_spriteFactory.CreateRedBulletSprite(), _activeBullets, _shoot);
 
         UpdateCollisions();
         UpdateEntityTargets();
@@ -180,6 +191,17 @@ public class GameManager
         IsGameOver = IsVictory = false;
     }
 
+    private void UpdateEnemies(GameTime gameTime)
+    {
+        List<HeavyTankEnemy> heavyTanks = _activeEnemies.Where(e => e is HeavyTankEnemy).Cast<HeavyTankEnemy>().ToList();
+        List<ShooterEnemy> shooters = _activeEnemies.Where(e => e is ShooterEnemy).Cast<ShooterEnemy>().ToList();
+        var others = _activeEnemies.Where(e => (e is not HeavyTankEnemy) && (e is not ShooterEnemy)).ToList();
+
+        heavyTanks.ForEach(e => e.Update(gameTime, _activeBullets, _spriteFactory.HeavyBlueBulletRegion, _heavy));
+        shooters.ForEach(e => e.Update(gameTime, _activeBullets, _spriteFactory.LightBlueBulletRegion, _shooter));
+        others.ForEach(e => e.Update(gameTime, _activeBullets, null));
+    }
+
     private void UpdateCollisions()
     {
         Circle playerBounds = _ship.GetBounds();
@@ -192,6 +214,7 @@ public class GameManager
             {
                 b.IsActive = false;
                 _ship.TakeDamage(b.Damage);
+                Core.Audio.PlaySoundEffect(_enemyBulletHit, 0.5f, 0, 0, false);
             }
         }
         // player enemies
@@ -202,7 +225,12 @@ public class GameManager
             e.IsActive = false;
             _ship.TakeDamage(e.ContactDamage);
             if (e is TerroristEnemy terrorist)
+            {
                 terrorist.Explode(_activeExplosions, _spriteFactory.ExplosionAnimation);
+                Core.Audio.PlaySoundEffect(_explode, 0.5f, 0, 0, false);
+            }
+            else
+                Core.Audio.PlaySoundEffect(_collide, 0.3f, 2, 0, false);
         }
         // enemies bullets
         foreach (Bullet b in _activeBullets)
@@ -271,6 +299,7 @@ public class GameManager
                 continue;
             c.IsActive = false;
             _ship.Coins += (int)c.Type;
+            Core.Audio.PlaySoundEffect(_collect);
         }
     }
 
